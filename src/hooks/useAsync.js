@@ -19,6 +19,7 @@ export const useAsync = ({ dependancies = [], service, condition = true }) => {
     // setLoadingState({ isLoading: false });
 
     setState(results.data.content);
+    
   };
   return {
     state,

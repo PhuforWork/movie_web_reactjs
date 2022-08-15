@@ -1,15 +1,15 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore, compose } from "redux";
 import thunk from "redux-thunk";
 import { carouselReducer } from "./reducers/carousel.reducer";
-import { userReducer } from "./reducers/user.reducer";
+import { danhsachphimReducer } from "./reducers/danhsachphim.reducer";
 
 const rootReducer = combineReducers({
-  userReducer: userReducer,
+  danhsachphimReducer: danhsachphimReducer,
   carouselReducer: carouselReducer,
 });
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(
   rootReducer,
-  applyMiddleware(thunk)
-  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(applyMiddleware(thunk))
 );

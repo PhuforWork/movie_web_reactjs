@@ -1,5 +1,7 @@
+import { SET_CAROUSEL } from "../types/name.type";
+
 const CAROUSEL_DEFAULT = {
-  carouselBnr: [
+  carousel: [
     {
       maBanner: 1,
       maPhim: 1282,
@@ -12,7 +14,11 @@ export const carouselReducer = (
   state = CAROUSEL_DEFAULT,
   { type, payload }
 ) => {
+  // console.log(payload);
   switch (type) {
+    case SET_CAROUSEL: {
+      return { ...state,carousel: payload };
+    }
     default:
       return state;
   }
