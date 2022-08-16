@@ -1,6 +1,5 @@
 import { SET_MOVIELIST } from "../types/name.type";
 
-
 const MOVIELIST_DEFAULT = {
   movieInfo: [
     {
@@ -26,8 +25,9 @@ export const danhsachphimReducer = (
   { type, payload }
 ) => {
   switch (type) {
-    case SET_MOVIELIST:{
-      return {...state}
+    case SET_MOVIELIST: {
+      state.movieInfo = payload;
+      return { ...state };
     }
     default:
       return state;
