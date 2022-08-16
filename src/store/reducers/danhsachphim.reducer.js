@@ -1,4 +1,8 @@
-import { SET_MOVIELIST } from "../types/name.type";
+import {
+  SET_MOVIELIST,
+  SET_PHIMDANGCHIEU,
+  SET_PHIMSAPCHIEU,
+} from "../types/name.type";
 
 const MOVIELIST_DEFAULT = {
   movieInfo: [
@@ -18,6 +22,8 @@ const MOVIELIST_DEFAULT = {
       sapChieu: true,
     },
   ],
+  dangChieu: false,
+  sapChieu: false,
 };
 
 export const danhsachphimReducer = (
@@ -27,6 +33,20 @@ export const danhsachphimReducer = (
   switch (type) {
     case SET_MOVIELIST: {
       state.movieInfo = payload;
+      return { ...state };
+    }
+    case SET_PHIMDANGCHIEU: {
+      state.dangChieu = !state.dangChieu;
+      const data = [...state.movieInfo];
+      state.movieInfo = data.filter((ele) => ele.dangChieu === state.dangChieu);
+      // console.log(state.movieInfo);
+      return { ...state };
+    }
+    case SET_PHIMSAPCHIEU: {
+      state.sapChieu = !state.sapChieu;
+      const data = [...state.movieInfo];
+      state.movieInfo = data.filter((ele) => ele.sapChieu === state.sapChieu);
+      // console.log(state.movieInfo);
       return { ...state };
     }
     default:

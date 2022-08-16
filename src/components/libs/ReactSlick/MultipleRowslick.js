@@ -1,5 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Slider from "react-slick";
+import {
+  SET_PHIMDANGCHIEU,
+  SET_PHIMSAPCHIEU,
+} from "../../../store/types/name.type";
 import Film from "../../film/film";
 import styleSlick from "./MultipleRowslick.module.css";
 
@@ -25,7 +30,7 @@ function SamplePrevArrow(props) {
   );
 }
 
-export default class MultipleRows extends Component {
+ class MultipleRows extends Component {
   renderFilms = () => {
     return this.props.movieInfo.map((ele, index) => {
       return (
@@ -46,14 +51,48 @@ export default class MultipleRows extends Component {
       speed: 700,
       rows: 2,
       slidesPerRow: 1,
-      variableWidth: true,
+      // variableWidth: true,
       nextArrow: <SampleNextArrow />,
       prevArrow: <SamplePrevArrow />,
     };
+
     return (
-      <Slider {...settings}>
-        {this.renderFilms()}
-      </Slider>
+      <>
+        <button
+          type="button"
+          className="relative px-10 py-2  overflow-hidden font-semibold rounded dark:bg-gray-100 dark:text-gray-900"
+          onClick={() => {
+            this.props.dispatch({
+              type: SET_PHIMSAPCHIEU,
+            });
+          }}
+        >
+          PHIM SẮP CHIẾU
+          <span className="absolute top-0 right-0 px-3  text-xs tracking-wider text-center uppercase whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 dark:bg-violet-400">
+            New
+          </span>
+        </button>
+        <button
+          type="button"
+          className="relative px-8 py-2 ml-4 overflow-hidden font-semibold rounded dark:bg-gray-100 dark:text-gray-900"
+          onClick={() => {
+            this.props.dispatch({
+              type: SET_PHIMDANGCHIEU,
+            });
+          }}
+        >
+          PHIM ĐANG CHIẾU
+        </button>
+        <div>
+          <Slider {...settings}>{this.renderFilms()}</Slider>
+        </div>
+      </>
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    ...state.danhsachphimReducer,
+  };
+};
+export default connect(mapStateToProps)(MultipleRows);

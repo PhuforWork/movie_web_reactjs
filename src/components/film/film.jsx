@@ -2,9 +2,18 @@ import React from "react";
 import ButtonLoading from "../buttonLoading/buttonLoading";
 
 export default function Film(props) {
-  //   console.log(props);
-  const { maPhim, tenPhim, trailer, hinhAnh, moTa, ngayKhoiChieu, danhGia } =
-    props.props;
+  // console.log(props);
+  const {
+    maPhim,
+    tenPhim,
+    trailer,
+    hinhAnh,
+    moTa,
+    ngayKhoiChieu,
+    sapChieu,
+    dangChieu,
+    danhGia,
+  } = props.props;
   return (
     <div className="flex flex-col max-w-lg p-2 space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-100 dark:text-gray-100">
       <div>
@@ -31,13 +40,9 @@ export default function Film(props) {
             <span>{moTa}</span>
           )}
         </p>
-        <button
-          aria-label="Bookmark this post"
-          type="button"
-          className="p-2"
-        >
-          <ButtonLoading/>
-        </button>
+        <div aria-label="Bookmark this post"  className="p-2">
+          <ButtonLoading />
+        </div>
       </div>
       <div className="flex flex-wrap justify-between">
         <div className="space-x-2">
