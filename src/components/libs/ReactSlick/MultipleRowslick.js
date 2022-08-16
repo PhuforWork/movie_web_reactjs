@@ -48,7 +48,7 @@ export default function MultipleRows (props) {
     infinite: true,
     centerPadding: "60px",
     slidesToShow: 3,
-    speed: 700,
+    speed: 2500,
     rows: 2,
     slidesPerRow: 1,
     // variableWidth: true,

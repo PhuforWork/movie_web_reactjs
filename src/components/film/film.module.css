@@ -1,5 +1,8 @@
-.film-1{
-background-position: center;
-background-repeat: no-repeat;
-background-size: 100% 100%;
+.film-1 {
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+}
+.film-2 {
+    width: 400px;
 }

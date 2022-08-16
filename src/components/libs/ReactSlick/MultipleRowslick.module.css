@@ -10,8 +10,10 @@
 }
 
 .width-item {
-  width: 95% !important;
-  margin: 10px;
+  width: 96% !important;
+  margin: 50px 10px  !important;
+  display: flex !important;
+  justify-content: center !important;
 }
 
 .active-films {
