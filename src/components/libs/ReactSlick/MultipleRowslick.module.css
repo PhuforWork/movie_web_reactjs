@@ -8,11 +8,17 @@
   color: grey !important;
   font-size: 3rem !important;
 }
-.slick-prev,
-.slick-next {
-}
-.width-item{
+
+.width-item {
   width: 95% !important;
   margin: 10px;
 }
 
+.active-films {
+  background-color: #bae637;
+  border: 1px solid transparent;
+}
+.none-active-films {
+  background-color: #ffa940;
+  border: 1px solid transparent;
+}

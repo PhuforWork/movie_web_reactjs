@@ -24,6 +24,7 @@ const MOVIELIST_DEFAULT = {
   ],
   dangChieu: false,
   sapChieu: false,
+  movieInfoDefault: [],
 };
 
 export const danhsachphimReducer = (
@@ -33,19 +34,19 @@ export const danhsachphimReducer = (
   switch (type) {
     case SET_MOVIELIST: {
       state.movieInfo = payload;
+      state.movieInfoDefault = state.movieInfo;
       return { ...state };
     }
     case SET_PHIMDANGCHIEU: {
       state.dangChieu = !state.dangChieu;
-      const data = [...state.movieInfo];
-      state.movieInfo = data.filter((ele) => ele.dangChieu === state.dangChieu);
+      state.movieInfo = state.movieInfoDefault.filter((ele) => ele.dangChieu === state.dangChieu);
       // console.log(state.movieInfo);
       return { ...state };
     }
     case SET_PHIMSAPCHIEU: {
       state.sapChieu = !state.sapChieu;
-      const data = [...state.movieInfo];
-      state.movieInfo = data.filter((ele) => ele.sapChieu === state.sapChieu);
+      
+      state.movieInfo = state.movieInfoDefault.filter((ele) => ele.sapChieu === state.sapChieu);
       // console.log(state.movieInfo);
       return { ...state };
     }

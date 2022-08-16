@@ -1,6 +1,6 @@
 import React from "react";
 import ButtonLoading from "../buttonLoading/buttonLoading";
-
+import stylesFilm from "./film.module.css";
 export default function Film(props) {
   // console.log(props);
   const {
@@ -13,17 +13,14 @@ export default function Film(props) {
     sapChieu,
     dangChieu,
     danhGia,
-  } = props.props;
+  } = props.item;
   return (
     <div className="flex flex-col max-w-lg p-2 space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-100 dark:text-gray-100">
       <div>
         <div
-          className="w-full"
+          className={`"w-full" ${stylesFilm["film-1"]}`}
           style={{
             background: `url(${hinhAnh})`,
-            backgroundPosition: "center",
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
           }}
         >
           <img
@@ -40,7 +37,7 @@ export default function Film(props) {
             <span>{moTa}</span>
           )}
         </p>
-        <div aria-label="Bookmark this post"  className="p-2">
+        <div aria-label="Bookmark this post" className="p-2">
           <ButtonLoading />
         </div>
       </div>
