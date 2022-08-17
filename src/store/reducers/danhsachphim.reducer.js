@@ -1,4 +1,5 @@
 import {
+  ALL_PHIM,
   SET_MOVIELIST,
   SET_PHIMDANGCHIEU,
   SET_PHIMSAPCHIEU,
@@ -22,8 +23,8 @@ const MOVIELIST_DEFAULT = {
       sapChieu: true,
     },
   ],
-  dangChieu: false,
-  sapChieu: false,
+  dangChieu: true,
+  sapChieu: true,
   movieInfoDefault: [],
 };
 
@@ -37,16 +38,23 @@ export const danhsachphimReducer = (
       state.movieInfoDefault = state.movieInfo;
       return { ...state };
     }
+    case ALL_PHIM: {
+      state.movieInfo = state.movieInfoDefault;
+      return { ...state };
+    }
     case SET_PHIMDANGCHIEU: {
-      state.dangChieu = !state.dangChieu;
-      state.movieInfo = state.movieInfoDefault.filter((ele) => ele.dangChieu === state.dangChieu);
+      // state.sapChieu = !state.sapChieu;
+      state.movieInfo = state.movieInfoDefault.filter(
+        (ele) => ele.dangChieu === state.dangChieu
+      );
       // console.log(state.movieInfo);
       return { ...state };
     }
     case SET_PHIMSAPCHIEU: {
-      state.sapChieu = !state.sapChieu;
-      
-      state.movieInfo = state.movieInfoDefault.filter((ele) => ele.sapChieu === state.sapChieu);
+      // state.dangChieu = !state.dangChieu;
+      state.movieInfo = state.movieInfoDefault.filter(
+        (ele) => ele.sapChieu === state.sapChieu
+      );
       // console.log(state.movieInfo);
       return { ...state };
     }

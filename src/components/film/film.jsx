@@ -1,3 +1,4 @@
+import { Tag } from "antd";
 import React from "react";
 import ButtonLoading from "../buttonLoading/buttonLoading";
 import stylesFilm from "./film.module.css";
@@ -6,16 +7,18 @@ export default function Film(props) {
   const {
     maPhim,
     tenPhim,
-    trailer,
+    // trailer,
     hinhAnh,
     moTa,
-    ngayKhoiChieu,
-    sapChieu,
+    // ngayKhoiChieu,
+    // sapChieu,
     dangChieu,
     danhGia,
   } = props.item;
   return (
-    <div className={`${stylesFilm["film-2"]} flex flex-col max-w-lg  space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-100 dark:text-gray-100`} >
+    <div
+      className={`${stylesFilm["film-2"]} flex flex-col max-w-lg  space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-100 dark:text-gray-100`}
+    >
       <div>
         <div
           className={`"w-full " ${stylesFilm["film-1"]}`}
@@ -29,7 +32,7 @@ export default function Film(props) {
             className="object-cover w-full mb-4 sm:h-96 dark:bg-gray-500 opacity-0 "
           />
         </div>
-        <h2 className="ml-2 mb-1 text-xl font-semibold h-12">{tenPhim}</h2>
+        <h2 className="ml-2 mb-1 text-xl font-semibold h-12">{tenPhim} - </h2>
         <p className="text-sm dark:text-gray-500 h-12">
           {moTa.length > 100 ? (
             <span>{moTa.slice(0, 100)}...</span>
@@ -38,7 +41,9 @@ export default function Film(props) {
           )}
         </p>
         <div aria-label="Bookmark this post" className="p-2">
-          <ButtonLoading />
+          <div className="flex text-center">
+            <ButtonLoading /> {dangChieu ? <Tag style={{alignItems:'center',display:"flex"}} color="green">Đang chiếu</Tag> : <Tag style={{alignItems:'center',display:"flex"}} color="orange">Sắp chiếu</Tag>}  
+          </div>
         </div>
       </div>
       <div className="flex flex-wrap justify-between mt-3">

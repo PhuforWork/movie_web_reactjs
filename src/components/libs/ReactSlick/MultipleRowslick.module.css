@@ -17,10 +17,10 @@
 }
 
 .active-films {
-  background-color: #bae637;
-  border: 1px solid transparent;
+  background-color: #bae637 !important;
+  border: 1px solid transparent !important;
 }
 .none-active-films {
-  background-color: #ffa940;
-  border: 1px solid transparent;
+  background-color: #ffa940 !important;
+  border: 1px solid transparent !important;
 }

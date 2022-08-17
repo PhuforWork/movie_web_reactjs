@@ -19,7 +19,7 @@ export default function ButtonLoading() {
     }, 1000);
   };
   return (
-    <>
+    <div style={{width:160}}>
       <Space
         style={{
           width: "100%",
@@ -42,6 +42,6 @@ export default function ButtonLoading() {
           Trailer
         </Button>
       </Space>
-    </>
+    </div>
   );
 }

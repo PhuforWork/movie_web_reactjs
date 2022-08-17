@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import Slider from "react-slick";
 import {
+  ALL_PHIM,
   SET_PHIMDANGCHIEU,
   SET_PHIMSAPCHIEU,
 } from "../../../store/types/name.type";
@@ -30,7 +31,7 @@ function SamplePrevArrow(props) {
   );
 }
 
-export default function MultipleRows (props) {
+export default function MultipleRows(props) {
   const dispatch = useDispatch();
   const renderFilms = () => {
     return props.movieInfo.map((ele, index) => {
@@ -41,7 +42,6 @@ export default function MultipleRows (props) {
       );
     });
   };
-
   const settings = {
     className: "center slider variable-width",
     centerMode: true,
@@ -60,7 +60,18 @@ export default function MultipleRows (props) {
     <>
       <button
         type="button"
-        className={` relative px-10 py-2  overflow-hidden font-semibold rounded dark:bg-gray-100 dark:text-gray-900`}
+        className={` relative px-8 py-2 ml-4 overflow-hidden focus:bg-lime-500  font-semibold rounded bg-gray-500 dark:text-gray-900`}
+        onClick={() => {
+          dispatch({
+            type: ALL_PHIM,
+          });
+        }}
+      >
+        ALL
+      </button>
+      <button
+        type="button"
+        className={` relative px-10 py-2  focus:bg-lime-500 ml-2  overflow-hidden font-semibold rounded bg-gray-500 dark:text-gray-900`}
         onClick={() => {
           dispatch({
             type: SET_PHIMSAPCHIEU,
@@ -68,13 +79,13 @@ export default function MultipleRows (props) {
         }}
       >
         PHIM SẮP CHIẾU
-        <span className="absolute top-0 right-0 px-3  text-xs tracking-wider text-center uppercase whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 dark:bg-violet-400">
+        <span className="absolute top-0 right-0 px-3  text-xs tracking-wider text-center uppercase whitespace-no-wrap origin-bottom-left transform rotate-45 -translate-y-full translate-x-1/3 bg-violet-400">
           New
         </span>
       </button>
       <button
         type="button"
-        className={` relative px-8 py-2 ml-4 overflow-hidden font-semibold rounded dark:bg-gray-100 dark:text-gray-900`}
+        className={` relative px-8 py-2 ml-2 overflow-hidden focus:bg-lime-500 font-semibold rounded bg-gray-500 dark:text-gray-900`}
         onClick={() => {
           dispatch({
             type: SET_PHIMDANGCHIEU,
@@ -88,6 +99,4 @@ export default function MultipleRows (props) {
       </div>
     </>
   );
-};
-
-
+}
