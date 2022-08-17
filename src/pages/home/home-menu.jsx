@@ -7,7 +7,7 @@ const { TabPane } = Tabs;
 
 export default function HomeMenu(props) {
   const [tabPosition, setTabPosition] = useState("left");
-  console.log(props);
+  // console.log(props);
   const renderMovieTheater = () => {
     return props.hethongRapChieu?.map((hethongRap, index) => {
       return (

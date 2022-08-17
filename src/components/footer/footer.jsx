@@ -1,7 +1,33 @@
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useAsync } from "../../hooks/useAsync";
+import { fetchInfoTheaterApi } from "../../services/danhsachphim";
+import { SET_INFOTHEATER } from "../../store/types/name.type";
 
 export default function Footer() {
-  
+  const { thongtinRapChieu } = useSelector((state) => state.quanlyrapReducer);
+  console.log(thongtinRapChieu);
+  const dispatch = useDispatch();
+  const { state: infoTheater } = useAsync({
+    dependancies: [],
+    service: () => fetchInfoTheaterApi(),
+  });
+  useEffect(() => {
+    dispatch({
+      type: SET_INFOTHEATER,
+      payload: infoTheater,
+    });
+  }, [infoTheater]);
+  const renderFooterPartner = () => {
+    return thongtinRapChieu?.map((ele) => {
+      return (
+        <li key={ele.maHeThongRap}>
+          <img style={{width:"30px",height:"30px"}} src={ele.logo} alt={ele.tenHeThongRap} />
+        </li>
+      );
+    });
+  };
   return (
     <footer className="px-4 divide-y bg-gray-800 text-gray-100 ">
       <div className="container flex flex-col justify-between py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
@@ -22,16 +48,10 @@ export default function Footer() {
           </svg>
           <span className="px-1 text-xl text-orange-600">CyberMovie</span>
         </div>
-        <div className="grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4">
+        <div className="grid grid-cols-5 text-sm gap-x-10 gap-y-8 lg:w-2/3 sm:grid-cols-4">
           <div className="space-y-3">
             <h5 className="tracking-wide uppercase text-gray-50">Partner</h5>
-            <ul className="space-y-1">
-              <li>
-                <a rel="noopener noreferrer" href="#">
-                  Privacy
-                </a>
-              </li>
-            </ul>
+            <ul className="grid grid-cols-3 gap-3 space-y-1 ">{renderFooterPartner()}</ul>
           </div>
           <div className="space-y-3">
             <h5 className="tracking-wide uppercase text-gray-50">Product</h5>

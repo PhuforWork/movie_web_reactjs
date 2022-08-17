@@ -14,4 +14,12 @@ const fetchManagerTheaterApi = () => {
     method: "GET",
   });
 };
-export { fetchMovieListApi,fetchManagerTheaterApi };
+
+const fetchInfoTheaterApi = () => {
+  return request({
+    url: "/QuanLyRap/LayThongTinHeThongRap",
+    method: "GET",
+  });
+};
+
+export { fetchMovieListApi, fetchManagerTheaterApi,fetchInfoTheaterApi };

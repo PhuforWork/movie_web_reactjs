@@ -11,6 +11,12 @@ import {
 import { SET_MOVIELIST, SET_MOVIETHEATER } from "../../store/types/name.type";
 // import Film from "../../components/film/film";
 import HomeMenu from "./home-menu";
+
+
+
+
+
+
 export default function Home() {
   const dispatch = useDispatch();
   const { movieInfo } = useSelector((state) => state.danhsachphimReducer);
