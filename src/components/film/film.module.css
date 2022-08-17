@@ -1,5 +1,10 @@
-.film-1{
-background-position: center !important;
-background-repeat: no-repeat !important;
-background-size: 100% 100% !important;
+
+.film-1 {
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
 }
+.film-2 {
+    width: 400px;
+}
+

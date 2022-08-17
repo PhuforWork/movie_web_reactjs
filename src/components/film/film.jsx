@@ -15,10 +15,10 @@ export default function Film(props) {
     danhGia,
   } = props.item;
   return (
-    <div className="flex flex-col max-w-lg p-2 space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-100 dark:text-gray-100">
+    <div className={`${stylesFilm["film-2"]} flex flex-col max-w-lg  space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-100 dark:text-gray-100`} >
       <div>
         <div
-          className={`"w-full" ${stylesFilm["film-1"]}`}
+          className={`"w-full " ${stylesFilm["film-1"]}`}
           style={{
             background: `url(${hinhAnh})`,
           }}
@@ -26,10 +26,10 @@ export default function Film(props) {
           <img
             src={hinhAnh}
             alt=""
-            className="object-cover w-full mb-4 h-60 sm:h-96 dark:bg-gray-500 opacity-0 "
+            className="object-cover w-full mb-4 sm:h-96 dark:bg-gray-500 opacity-0 "
           />
         </div>
-        <h2 className="mb-1 text-xl font-semibold h-12">{tenPhim}</h2>
+        <h2 className="ml-2 mb-1 text-xl font-semibold h-12">{tenPhim}</h2>
         <p className="text-sm dark:text-gray-500 h-12">
           {moTa.length > 100 ? (
             <span>{moTa.slice(0, 100)}...</span>
@@ -41,7 +41,7 @@ export default function Film(props) {
           <ButtonLoading />
         </div>
       </div>
-      <div className="flex flex-wrap justify-between">
+      <div className="flex flex-wrap justify-between mt-3">
         <div className="space-x-2">
           <button
             aria-label="Share this post"
