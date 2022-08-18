@@ -2,6 +2,7 @@ import React from "react";
 import { useRoutes } from "react-router-dom";
 import HomeLayout from "../layouts/home";
 import Contact from "../pages/contact/contact";
+import Details from "../pages/details/details";
 import Home from "../pages/home/home";
 import Login from "../pages/login/login";
 import News from "../pages/news/news";
@@ -24,6 +25,10 @@ export default function Router() {
         {
           path: "/news",
           element: <News />,
+        },
+        {
+          path: "/details/:id",
+          element: <Details />,
         },
         {
           path: "/login",

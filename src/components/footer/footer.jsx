@@ -7,7 +7,7 @@ import { SET_INFOTHEATER } from "../../store/types/name.type";
 
 export default function Footer() {
   const { thongtinRapChieu } = useSelector((state) => state.quanlyrapReducer);
-  console.log(thongtinRapChieu);
+  // console.log(thongtinRapChieu);
   const dispatch = useDispatch();
   const { state: infoTheater } = useAsync({
     dependancies: [],
