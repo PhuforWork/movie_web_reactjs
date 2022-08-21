@@ -2,6 +2,7 @@
 import { Button, Space } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Details from "../../pages/details/details";
 
 export default function ButtonLoading(props) {
   const [loadings, setLoadings] = useState([]);
@@ -19,7 +20,6 @@ export default function ButtonLoading(props) {
         if (newLoadings[0] === false) {
           navigate(`/details/${props.maPhim}`);
         }
-        // console.log(newLoadings);
         return newLoadings;
       });
     }, 1000);
@@ -37,6 +37,7 @@ export default function ButtonLoading(props) {
           loading={loadings[0]}
           onClick={() => {
             enterLoading(0);
+            
           }}
         >
           Đặt vé

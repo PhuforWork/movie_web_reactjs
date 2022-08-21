@@ -32,8 +32,8 @@ export default function Film(props) {
             className="object-cover w-full mb-4 sm:h-96 dark:bg-gray-500 opacity-0 "
           />
         </div>
-        <h2 className="ml-2 mb-1 text-xl font-semibold h-12">{tenPhim} - </h2>
-        <p className="text-sm dark:text-gray-500 h-12">
+        <h4 className="ml-2 mb-1 text-base font-semibold h-12">{tenPhim}</h4>
+        <p className="px-2 py-2 text-xs dark:text-gray-500 h-12">
           {moTa.length > 100 ? (
             <span>{moTa.slice(0, 100)}...</span>
           ) : (

@@ -1,9 +1,24 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+  SET_ACCOUNTS_USER,
+  USER_ACCOUNT_KEY,
+} from "../../store/types/name.type";
 import "./header.scss";
 
-
 export default function Header() {
+  const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem(USER_ACCOUNT_KEY);
+    dispatch({
+      type: SET_ACCOUNTS_USER,
+      payload: null,
+    });
+    navigate("/home");
+  };
   return (
     <div>
       <header className="px-4 py-2 bg-slate-900  opacity-80 dark:text-gray-100 fixed w-full z-10">
@@ -65,12 +80,33 @@ export default function Header() {
             </li>
           </ul>
           <div className="items-center flex-shrink-0 hidden lg:flex">
-            <button className="self-center px-8 py-3 rounded mx-2 text-orange-600 ">
-              Register
-            </button>
-            <button className="self-center px-8 py-3 font-semibold rounded bg-green-500 ">
-              Log in
-            </button>
+            {!quanlynguoidung.userAccount ? (
+              <>
+                <button className="self-center px-8 py-3 rounded mx-2 text-orange-600 ">
+                  Register
+                </button>
+                <button
+                  onClick={() => {
+                    navigate("/adminguards/login");
+                  }}
+                  className="self-center px-8 py-3 font-semibold rounded bg-green-500 "
+                >
+                  Log in
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="mr-2">
+                  Xin chào {quanlynguoidung.userAccount.hoTen}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="self-center px-8 py-3 font-semibold rounded bg-green-500 "
+                >
+                  Log out
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>

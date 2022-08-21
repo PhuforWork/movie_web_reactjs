@@ -51,7 +51,7 @@ export default function Home() {
         <HomeCarousel />
       </div>
       <section className="py-6 sm:py-12 ">
-        <div className="w-11/12 p-6 mx-auto space-y-8">
+        <div className="w-4/5 p-6 mx-auto space-y-8">
           <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">
               Danh Sách Phim Chiếu Rạp 2022

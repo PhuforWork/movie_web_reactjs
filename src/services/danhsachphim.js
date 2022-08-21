@@ -22,4 +22,12 @@ const fetchInfoTheaterApi = () => {
   });
 };
 
-export { fetchMovieListApi, fetchManagerTheaterApi,fetchInfoTheaterApi };
+const fetchInfoCheduleMovieApi = (maPhim) => {
+  // console.log(maPhim);
+  return request({
+    url: `/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maPhim}`,
+    method: "GET",
+  });
+};
+
+export { fetchMovieListApi, fetchManagerTheaterApi, fetchInfoTheaterApi,fetchInfoCheduleMovieApi };

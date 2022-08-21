@@ -1,5 +1,6 @@
 import {
   ALL_PHIM,
+  SET_CHEDULEMOVIE,
   SET_MOVIELIST,
   SET_PHIMDANGCHIEU,
   SET_PHIMSAPCHIEU,
@@ -26,6 +27,7 @@ const MOVIELIST_DEFAULT = {
   dangChieu: true,
   sapChieu: true,
   movieInfoDefault: [],
+  movieSchedule: {},
 };
 
 export const danhsachphimReducer = (
@@ -56,6 +58,10 @@ export const danhsachphimReducer = (
         (ele) => ele.sapChieu === state.sapChieu
       );
       // console.log(state.movieInfo);
+      return { ...state };
+    }
+    case SET_CHEDULEMOVIE: {
+      state.movieSchedule = payload;
       return { ...state };
     }
     default:

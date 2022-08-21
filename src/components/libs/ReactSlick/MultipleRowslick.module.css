@@ -10,8 +10,8 @@
 }
 
 .width-item {
-  width: 96% !important;
-  margin: 50px 10px  !important;
+  width: 100% !important;
+  margin: 50px 1px  !important;
   display: flex !important;
   justify-content: center !important;
 }
