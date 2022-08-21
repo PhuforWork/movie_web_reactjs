@@ -2,13 +2,11 @@ import moment from "moment";
 import { Rate, Tabs } from "antd";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams,NavLink } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { useAsync } from "../../hooks/useAsync";
 import { fetchInfoCheduleMovieApi } from "../../services/danhsachphim";
 import { SET_CHEDULEMOVIE } from "../../store/types/name.type";
 import "./details.scss";
-
-
 
 export default function Details(props) {
   const { TabPane } = Tabs;
@@ -29,7 +27,6 @@ export default function Details(props) {
     danhGia,
     heThongRapChieu,
   } = movieDetail.movieSchedule;
-  console.log(heThongRapChieu);
   const dispatch = useDispatch();
   const { state: cheduleMovie } = useAsync({
     dependancies: [],
@@ -110,17 +107,21 @@ export default function Details(props) {
                                 </div>
                               </div>
                               <div className="flex">
-                                {cumRap.lichChieuPhim?.slice(0,12).map(
-                                  (lichChieu, index) => {
+                                {cumRap.lichChieuPhim
+                                  ?.slice(0, 12)
+                                  .map((lichChieu, index) => {
                                     return (
-                                      <NavLink to="/home" key={index} className="pr-2 pt-2 text-lime-300">
+                                      <NavLink
+                                        to={`/booking/${lichChieu.maLichChieu}`}
+                                        key={index}
+                                        className="pr-2 pt-2 text-lime-300"
+                                      >
                                         {moment(
                                           lichChieu.ngayChieuGioChieu
                                         ).format("hh:mm A")}
                                       </NavLink>
                                     );
-                                  }
-                                )}
+                                  })}
                               </div>
                             </div>
                           );

@@ -40,7 +40,7 @@ export default function ButtonLoading(props) {
             
           }}
         >
-          Đặt vé
+          Chi tiết
         </Button>
         <Button
           type="primary"

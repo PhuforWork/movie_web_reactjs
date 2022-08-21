@@ -1,6 +1,7 @@
+import { notification } from "antd";
 import React from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchUserApi } from "../../services/quanlyuser";
 import {
   SET_ACCOUNTS_USER,
@@ -8,8 +9,6 @@ import {
 } from "../../store/types/name.type";
 
 export default function Login() {
-  const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
-  // console.log(quanlynguoidung);
   const dispatch = useDispatch();
 
   const [user, setUser] = useState({
@@ -25,13 +24,21 @@ export default function Login() {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = await fetchUserApi(user);
-    console.log(result);
-    localStorage.setItem(USER_ACCOUNT_KEY, JSON.stringify(result.data.content));
-    dispatch({
-      type: SET_ACCOUNTS_USER,
-      payload: result.data.content,
-    });
+    try {
+      const result = await fetchUserApi(user);
+      localStorage.setItem(
+        USER_ACCOUNT_KEY,
+        JSON.stringify(result.data.content)
+      );
+      dispatch({
+        type: SET_ACCOUNTS_USER,
+        payload: result.data.content,
+      });
+    } catch (error) {
+      notification.warning({
+        message: "Khách hàng chưa đăng nhập hoặc nhập sai tài khoản",
+      });
+    }
   };
   return (
     <section className="h-screen">

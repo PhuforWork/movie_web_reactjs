@@ -22,9 +22,9 @@ export default function AdminGuards() {
       });
       return navigate("/home");
     } else if (quanlynguoidung.userAccount) {
-      navigate("/home")
+      navigate("/home");
     }
-  }, [quanlynguoidung]);
+  }, [quanlynguoidung,navigate]);
 
   return <Outlet />;
 }
