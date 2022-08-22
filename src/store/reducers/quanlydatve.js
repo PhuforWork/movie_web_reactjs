@@ -1,8 +1,13 @@
-import { SET_BOOKING_MOVIE, SET_SEAT_BOOKED } from "../types/name.type";
+import {
+  SET_BOOKING_MOVIE,
+  SET_BOOK_TICKET,
+  SET_SEAT_BOOKED,
+} from "../types/name.type";
 
 const BOOKING_MOVIE_DEFAULT = {
   chiTietPhongVe: {},
   danhSachGheDaDat: [],
+  danhSachDatVe: [],
 };
 
 export const quanlydatveReducer = (
@@ -25,6 +30,10 @@ export const quanlydatveReducer = (
         danhSachGheCapNhat.push(payload);
       }
       return { ...state, danhSachGheDaDat: danhSachGheCapNhat };
+    }
+    case SET_BOOK_TICKET: {
+      state.danhSachDatVe = payload;
+      return { ...state };
     }
     default:
       return state;

@@ -6,9 +6,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAsync } from "../../hooks/useAsync";
-import { fetchCheduleShowMovieApi } from "../../services/lichChieu";
+import {
+  fetchBookedTicketApi,
+  fetchCheduleShowMovieApi,
+} from "../../services/lichChieu";
 import {
   SET_BOOKING_MOVIE,
+  SET_BOOK_TICKET,
   SET_SEAT_BOOKED,
 } from "../../store/types/name.type";
 import "./booking.scss";
@@ -17,8 +21,9 @@ export default function Booking() {
   const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
   const quanLyDatve = useSelector((state) => state.quanlydatveReducer);
   const { thongTinPhim, danhSachGhe } = quanLyDatve.chiTietPhongVe;
-  const { danhSachGheDaDat } = quanLyDatve;
-  const [selectSeat, setSelectSeat] = useState(false);
+  const { danhSachGheDaDat, danhSachDatVe } = quanLyDatve;
+  // const [selectSeat, setSelectSeat] = useState();
+
   const dispatch = useDispatch();
   const params = useParams();
   const { state: chiTietDatVe } = useAsync({
@@ -31,18 +36,45 @@ export default function Booking() {
       payload: chiTietDatVe,
     });
   }, [chiTietDatVe]);
+  useEffect(() => {
+    dispatch({
+      type: SET_BOOK_TICKET,
+      payload: { maLichChieu: params.id, danhSachVe: danhSachGheDaDat },
+    });
+  }, [danhSachGheDaDat]);
+  const handleBookingTicket = async () => {
+    const dsVe = danhSachGheDaDat?.map((ele) => {
+      return {
+        maGhe: ele.maGhe,
+        giaVe: ele.giaVe,
+      };
+    });
+    const submitVe = {
+      maLichChieu: params.id,
+      danhSachVe: dsVe
+    }
+    console.log(submitVe);
+    await fetchBookedTicketApi(submitVe);
+  };
 
   const renderSeat = () => {
     return danhSachGhe?.map((ele, index) => {
       let classGheVip = ele.loaiGhe === "Vip" && "gheVip";
       let classGheDaDat = ele.daDat && "gheDaDat";
+      let classUserDatVe = "";
+      let classGheDangDat = "";
+
       let indexGheDangDat = danhSachGheDaDat?.findIndex(
         (gheDD) => gheDD.maGhe === ele.maGhe
       );
-      let classGheDangDat = "";
       if (indexGheDangDat !== -1) {
         classGheDangDat = "gheDangDat";
       }
+
+      if (quanlynguoidung.userAccount.taiKhoan === ele.taiKhoanNguoiDat) {
+        classUserDatVe = "gheUserDat";
+      }
+
       return (
         <Fragment key={index}>
           <button
@@ -53,7 +85,7 @@ export default function Booking() {
               });
             }}
             disabled={ele.daDat}
-            className={`ghe ${classGheVip} ${classGheDaDat} ${classGheDangDat}`}
+            className={`ghe ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classUserDatVe}`}
           >
             {ele.tenGhe}
           </button>
@@ -132,7 +164,10 @@ export default function Booking() {
             <hr />
           </div>
           <div className="mb-0 h-3/4 flex flex-col justify-center items-center ">
-            <div className="bg-green-500 text-white w-full text-center font-bold text-xl py-3">
+            <div
+              onClick={handleBookingTicket}
+              className="bg-green-500 text-white w-full text-center font-bold text-xl py-3"
+            >
               Đặt vé
             </div>
           </div>

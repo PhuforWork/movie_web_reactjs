@@ -7,4 +7,11 @@ const fetchCheduleShowMovieApi = (maLichChieu) => {
   });
 };
 
-export {fetchCheduleShowMovieApi}
+const fetchBookedTicketApi = (data) => {
+  return request({
+    url: `/QuanLyDatVe/DatVe`,
+    method: "POST",
+    data: data,
+  });
+};
+export { fetchCheduleShowMovieApi, fetchBookedTicketApi };

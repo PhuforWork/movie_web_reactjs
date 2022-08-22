@@ -9,22 +9,27 @@
   filter: drop-shadow(0px 28px 40px rgb(9, 9, 9));
 }
 // ghe thuong
-.ghe{
-    width: 35px;
-    height: 35px;
-    border-radius: 5px;
-    margin: 15px;
-    background-color: grey;
-    cursor: pointer;
-}
-.gheDaDat{
+.ghe {
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  margin: 15px;
+  background-color: grey;
+  cursor: pointer;
+  &.gheDaDat {
     background-color: red;
     cursor: not-allowed;
-}
-.gheDangDat{
+  }
+  &.gheDangDat {
     background-color: green !important;
-}
+  }
 
-.gheVip{
-    background-color: orange ;
+  &.gheVip {
+    background-color: orange;
+  }
+  &.gheUserDat {
+    background-color: rgb(246, 246, 246);
+    box-shadow: -1px 2px 18px -6px #000000;
+    color: darkorchid !important;
+  }
 }
