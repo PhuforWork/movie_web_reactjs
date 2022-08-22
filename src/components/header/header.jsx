@@ -96,7 +96,7 @@ export default function Header() {
               </>
             ) : (
               <>
-                <span className="mr-2">
+                <span className="mr-2 text-emerald-400">
                   Xin chào {quanlynguoidung.userAccount.hoTen}
                 </span>
                 <button

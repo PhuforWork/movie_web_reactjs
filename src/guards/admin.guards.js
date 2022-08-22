@@ -24,7 +24,7 @@ export default function AdminGuards() {
     } else if (quanlynguoidung.userAccount) {
       navigate("/home");
     }
-  }, [quanlynguoidung,navigate]);
+  }, [quanlynguoidung]);
 
   return <Outlet />;
 }

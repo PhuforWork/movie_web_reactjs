@@ -65,7 +65,7 @@ export default function Booking() {
   return (
     <div className=" min-h-screen ">
       <div className="grid grid-cols-12">
-        <div className="col-span-8 pt-24 pl-24">
+        <div className="place-content-center justify-center col-span-8 col-start-2 pt-24 ">
           <div className="flex flex-col items-center ">
             <div
               className="bg-black"
@@ -75,7 +75,7 @@ export default function Booking() {
               <h5 className="text-center text-red-900 my-2">Màn hình</h5>
             </div>
           </div>
-          <div className="pt-10">{renderSeat()}</div>
+          <div className=" py-10 px-36">{renderSeat()}</div>
         </div>
         <div className="col-span-3 col-start-10 pt-24">
           <div className="px-5">
@@ -131,7 +131,7 @@ export default function Booking() {
             </div>
             <hr />
           </div>
-          <div className="mb-0 h-3/4 flex flex-col justify-center items-center ">
+          <div className="mb-0 h-1/2 flex flex-col justify-center items-center ">
             <div className="bg-green-500 text-white w-full text-center font-bold text-xl py-3">
               Đặt vé
             </div>
