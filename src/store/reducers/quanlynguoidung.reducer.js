@@ -1,5 +1,9 @@
-import { TOKEN } from "../../constants/common";
-import { SET_ACCOUNTS_USER, USER_ACCOUNT_KEY } from "../types/name.type";
+// import { TOKEN } from "../../constants/common";
+import {
+  SET_ACCOUNTS_USER,
+  SET_HISTORY_BOOKED,
+  USER_ACCOUNT_KEY,
+} from "../types/name.type";
 
 let userAccount = localStorage.getItem(USER_ACCOUNT_KEY);
 
@@ -9,13 +13,18 @@ if (userAccount) {
 
 const USER_DEFAULT = {
   userAccount: userAccount,
+  infoUserTicket: [],
 };
 
 export const quanlyUserReducer = (state = USER_DEFAULT, { type, payload }) => {
   switch (type) {
     case SET_ACCOUNTS_USER: {
-      console.log(payload);
+      // console.log(payload);
       state.userAccount = payload;
+      return { ...state };
+    }
+    case SET_HISTORY_BOOKED: {
+      state.infoUserTicket = payload;
       return { ...state };
     }
     default:

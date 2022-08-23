@@ -48,7 +48,7 @@ export default function Header() {
                 // className="flex items-center px-4 py-8 -mb-1 border-b-2 dark:border-transparent "
                 className={({ isActive }) =>
                   "flex items-center px-4 py-8 " +
-                  (isActive ? "border-b-4 border-amber-500" : "")
+                  (isActive ? "border-b-4 border-amber-500" : isActive)
                 }
               >
                 Home

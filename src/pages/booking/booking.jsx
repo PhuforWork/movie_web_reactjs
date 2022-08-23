@@ -1,4 +1,5 @@
 import moment from "moment";
+import { Tabs } from "antd";
 import _ from "lodash";
 import { CloseOutlined, UserOutlined } from "@ant-design/icons";
 import React, { Fragment } from "react";
@@ -10,15 +11,37 @@ import { useAsync } from "../../hooks/useAsync";
 import {
   fetchBookedTicketApi,
   fetchCheduleShowMovieApi,
+  fetchHistoryTicketApi,
 } from "../../services/lichChieu";
 import {
   SET_BOOKING_MOVIE,
   SET_BOOK_TICKET,
+  SET_HISTORY_BOOKED,
   SET_SEAT_BOOKED,
 } from "../../store/types/name.type";
 import "./booking.scss";
 
-export default function Booking() {
+const { TabPane } = Tabs;
+const onChange = (key) => {
+  // console.log(key);
+};
+
+export default function (props) {
+  return (
+    <div className="p-20">
+      <Tabs defaultActiveKey="1" onChange={onChange}>
+        <TabPane tab="Đặt vé" key="1">
+          <Booking {...props} />
+        </TabPane>
+        <TabPane tab="Kết quả đặt vé" key="2">
+          <KetQuaDatVe {...props} />
+        </TabPane>
+      </Tabs>
+    </div>
+  );
+}
+
+function Booking(props) {
   const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
   const quanLyDatve = useSelector((state) => state.quanlydatveReducer);
   const { thongTinPhim, danhSachGhe } = quanLyDatve.chiTietPhongVe;
@@ -88,7 +111,29 @@ export default function Booking() {
             disabled={ele.daDat}
             className={`ghe ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classUserDatVe} text-center`}
           >
-            {ele.daDat ? classUserDatVe != "" ? <UserOutlined style={{fontWeight:"bold",display:"flex",alignItems:"center",justifyContent:"center"}}/> : <CloseOutlined  style={{fontWeight:"bold",display:"flex",alignItems:"center",justifyContent:"center"}}/> : ele.stt }
+            {ele.daDat ? (
+              classUserDatVe != "" ? (
+                <UserOutlined
+                  style={{
+                    fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                />
+              ) : (
+                <CloseOutlined
+                  style={{
+                    fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                />
+              )
+            ) : (
+              ele.stt
+            )}
           </button>
           {(index + 1) % 16 === 0 && <br />}
         </Fragment>
@@ -99,7 +144,7 @@ export default function Booking() {
     <div className=" min-h-screen ">
       <div className="grid grid-cols-12">
         <div className="place-content-center justify-center col-span-8 col-start-2 pt-24 ">
-          <div className="flex flex-col items-center pr-36">
+          <div className="flex flex-col items-center ">
             <div
               className="bg-black"
               style={{ width: "80%", height: 15 }}
@@ -108,8 +153,73 @@ export default function Booking() {
               <h5 className="text-center text-red-900 my-2">Màn hình</h5>
             </div>
           </div>
-          <div className=" py-10 pl-10">{renderSeat()}</div>
-          <div>dasdsdf</div>
+          <div className=" py-10 pl-20">{renderSeat()}</div>
+          <div className="my-3 flex justify-center ">
+            <table className="min-w-full text-center  ">
+              <thead className="bg-blue-100 p-2 border-b ">
+                <tr>
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 p-2 "
+                  >
+                    Ghế chưa đặt
+                  </th>
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 p-2 "
+                  >
+                    Ghế đang đặt
+                  </th>
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 p-2 "
+                  >
+                    Ghế Vip
+                  </th>
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 p-2 "
+                  >
+                    Ghế đã được đặt
+                  </th>
+                  <th
+                    scope="col"
+                    className="text-sm font-medium text-gray-900 p-2 "
+                  >
+                    Ghế người dùng đã đặt
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                <tr className="border-b bg-purple-100 border-blue-200">
+                  <td className="p-2 whitespace-nowrap">
+                    <button className="ghe text-center">00</button>
+                  </td>
+                  <td className="p-2 whitespace-nowrap">
+                    <button className="ghe gheDangDat text-center">00</button>
+                  </td>
+                  <td className="p-2 whitespace-nowrap">
+                    <button className="ghe gheVip text-center">00</button>
+                  </td>
+                  <td className="p-2 whitespace-nowrap">
+                    <button className="ghe gheDaDat text-center">00</button>
+                  </td>
+                  <td className="p-2 whitespace-nowrap">
+                    <button className="ghe gheUserDat text-center">
+                      <UserOutlined
+                        style={{
+                          fontWeight: "bold",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      />
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div className="col-span-3 col-start-10 pt-24">
           <div className="px-5">
@@ -176,5 +286,70 @@ export default function Booking() {
         </div>
       </div>
     </div>
+  );
+}
+
+function KetQuaDatVe(props) {
+  // const { quanlynguoidung } = useSelector((state) => state.quanlyUserReducer);
+
+  const { infoUserTicket } = useSelector((state) => state.quanlyUserReducer);
+  console.log(infoUserTicket);
+  const dispatch = useDispatch();
+  const { state: historyTicket } = useAsync({
+    dependancies: [],
+    service: () => fetchHistoryTicketApi(),
+  });
+  useEffect(() => {
+    dispatch({
+      type: SET_HISTORY_BOOKED,
+      payload: historyTicket,
+    });
+  }, [historyTicket]);
+
+  const renderInforTicket = () => {
+    return infoUserTicket.thongTinDatVe?.map((ele, index) => {
+      const dsGhe = _.first(ele.danhSachGhe);
+      return (
+        <div className="p-2  md:w-1/2 w-full" key={index}>
+          <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img
+              alt="team"
+              className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+              src={ele.hinhAnh}
+            />
+            <div className="flex-grow">
+              <h5 className="text-gray-900 title-font font-medium">
+                {ele.tenPhim}
+              </h5>
+              <p className="text-gray-500">
+                Giờ chiếu: {moment(ele.ngayDat).format("hh:mm A")} - Ngày chiếu: {moment(ele.ngayDat).format("DD/MM/YYYY")}
+              </p>
+              <p className="text-gray-500">
+                Địa điểm: {dsGhe.tenHeThongRap} - {dsGhe.tenRap} - Ghế: <span className="text-lime-500">{dsGhe.tenGhe}</span>{""}                
+              </p>
+              <p className="text-gray-500">
+                Thời lượng phim: {ele.thoiLuongPhim} phút
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  };
+  return (
+    <section className="text-gray-600 body-font">
+      <div className="container px-5 py-24 mx-auto">
+        <div className="flex flex-col text-center w-full mb-10">
+          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-yellow-700">
+            Lịch sử đặt vé của khách hàng
+          </h1>
+          <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
+            Cùng xem lại thông tin địa điểm và thời gian để xem phim vui vẻ nhé
+            !
+          </p>
+        </div>
+        <div className="flex flex-wrap -m-2">{renderInforTicket()}</div>
+      </div>
+    </section>
   );
 }

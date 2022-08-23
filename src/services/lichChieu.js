@@ -14,4 +14,11 @@ const fetchBookedTicketApi = (data) => {
     data: data,
   });
 };
-export { fetchCheduleShowMovieApi, fetchBookedTicketApi };
+
+const fetchHistoryTicketApi = () => {
+  return request({
+    url: "/QuanLyNguoiDung/ThongTinTaiKhoan",
+    method: "POST",
+  });
+};
+export { fetchCheduleShowMovieApi, fetchBookedTicketApi, fetchHistoryTicketApi };

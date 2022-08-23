@@ -37,14 +37,14 @@ export default function Home() {
       type: SET_MOVIELIST,
       payload: movielistInfo,
     });
-  }, [movielistInfo]);
+  }, [movielistInfo,dispatch]);
 
   useEffect(() => {
     dispatch({
       type: SET_MOVIETHEATER,
       payload: managerTheater,
     });
-  }, [managerTheater]);
+  }, [managerTheater,dispatch]);
   return (
     <div>
       <div>
