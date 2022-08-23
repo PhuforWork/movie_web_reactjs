@@ -98,7 +98,7 @@ export default function Booking() {
     <div className=" min-h-screen ">
       <div className="grid grid-cols-12">
         <div className="place-content-center justify-center col-span-8 col-start-2 pt-24 ">
-          <div className="flex flex-col items-center pr-32">
+          <div className="flex flex-col items-center pr-36">
             <div
               className="bg-black"
               style={{ width: "80%", height: 15 }}
@@ -163,7 +163,7 @@ export default function Booking() {
             </div>
             <hr />
           </div>
-          <div className="mb-0 h-3/4 flex flex-col justify-center items-center ">
+          <div className="mb-0 flex flex-col justify-center items-center ">
             <div
               onClick={handleBookingTicket}
               className="bg-green-500 text-white w-full text-center font-bold text-xl py-3"

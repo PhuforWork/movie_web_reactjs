@@ -1,5 +1,6 @@
 import axios from "axios";
-import { BASE_URL, TOKEN_CYBERSOFT, USER_INFO_KEY } from "../constants/common";
+import { BASE_URL, TOKEN_CYBERSOFT } from "../constants/common";
+import { USER_ACCOUNT_KEY } from "../store/types/name.type";
 
 export const request = axios.create({
   baseURL: BASE_URL,
@@ -11,10 +12,11 @@ export const request = axios.create({
 
 //REQUEST:  A => INTERCEPTORS => B
 request.interceptors.request.use((config) => {
-  let userInfo = localStorage.getItem(USER_INFO_KEY);
-
+  let userInfo = localStorage.getItem(USER_ACCOUNT_KEY);
   if (userInfo) {
     userInfo = JSON.parse(userInfo);
+    console.log(userInfo.accessToken);
+
     //Bearer: tiêu chuẩn JSON web token
     config.headers.Authorization = `Bearer ${userInfo.accessToken}`;
   }
