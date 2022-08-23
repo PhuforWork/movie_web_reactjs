@@ -14,10 +14,12 @@
   height: 35px;
   border-radius: 5px;
   margin: 5px;
+  padding: 1px;
   background-color: grey;
   cursor: pointer;
   &.gheDaDat {
     background-color: red;
+    box-shadow: 5px 5px 10px 2px rgba(0,0,0,1);
     cursor: not-allowed;
   }
   &.gheDangDat {
@@ -29,7 +31,7 @@
   }
   &.gheUserDat {
     background-color: rgb(246, 246, 246);
-    box-shadow: -1px 2px 18px -6px #000000;
+    box-shadow: 5px 5px 10px 2px rgba(0,0,0,1);
     color: darkorchid !important;
   }
 }

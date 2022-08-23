@@ -15,7 +15,7 @@ request.interceptors.request.use((config) => {
   let userInfo = localStorage.getItem(USER_ACCOUNT_KEY);
   if (userInfo) {
     userInfo = JSON.parse(userInfo);
-    console.log(userInfo.accessToken);
+    // console.log(userInfo.accessToken);
 
     //Bearer: tiêu chuẩn JSON web token
     config.headers.Authorization = `Bearer ${userInfo.accessToken}`;

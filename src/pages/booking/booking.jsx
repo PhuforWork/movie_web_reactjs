@@ -1,5 +1,6 @@
 import moment from "moment";
 import _ from "lodash";
+import { CloseOutlined, UserOutlined } from "@ant-design/icons";
 import React, { Fragment } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -43,18 +44,18 @@ export default function Booking() {
     });
   }, [danhSachGheDaDat]);
   const handleBookingTicket = async () => {
-    const dsVe = danhSachGheDaDat?.map((ele) => {
-      return {
-        maGhe: ele.maGhe,
-        giaVe: ele.giaVe,
-      };
-    });
-    const submitVe = {
-      maLichChieu: params.id,
-      danhSachVe: dsVe
-    }
-    console.log(submitVe);
-    await fetchBookedTicketApi(submitVe);
+    // const dsVe = danhSachGheDaDat?.map((ele) => {
+    //   return {
+    //     maGhe: ele.maGhe,
+    //     giaVe: ele.giaVe,
+    //   };
+    // });
+    // const submitVe = {
+    //   maLichChieu: params.id,
+    //   danhSachVe: dsVe
+    // }
+    // console.log(submitVe);
+    await fetchBookedTicketApi(danhSachDatVe);
   };
 
   const renderSeat = () => {
@@ -85,9 +86,9 @@ export default function Booking() {
               });
             }}
             disabled={ele.daDat}
-            className={`ghe ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classUserDatVe}`}
+            className={`ghe ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classUserDatVe} text-center`}
           >
-            {ele.tenGhe}
+            {ele.daDat ? classUserDatVe != "" ? <UserOutlined style={{fontWeight:"bold",display:"flex",alignItems:"center",justifyContent:"center"}}/> : <CloseOutlined  style={{fontWeight:"bold",display:"flex",alignItems:"center",justifyContent:"center"}}/> : ele.stt }
           </button>
           {(index + 1) % 16 === 0 && <br />}
         </Fragment>
@@ -108,6 +109,7 @@ export default function Booking() {
             </div>
           </div>
           <div className=" py-10 pl-10">{renderSeat()}</div>
+          <div>dasdsdf</div>
         </div>
         <div className="col-span-3 col-start-10 pt-24">
           <div className="px-5">
