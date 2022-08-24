@@ -19,6 +19,10 @@ export default function Router() {
       element: <HomeLayout />,
       children: [
         {
+          path: "/",
+          element: <Home />,
+        },
+        {
           path: "/home",
           element: <Home />,
         },

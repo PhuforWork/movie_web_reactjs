@@ -3,7 +3,7 @@ import { Tabs } from "antd";
 import _ from "lodash";
 import { CloseOutlined, UserOutlined } from "@ant-design/icons";
 import React, { Fragment } from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -14,22 +14,33 @@ import {
   fetchHistoryTicketApi,
 } from "../../services/lichChieu";
 import {
+  CHANGE_TABS,
+  FINISH_BOOKTICKET,
   SET_BOOKING_MOVIE,
   SET_BOOK_TICKET,
   SET_HISTORY_BOOKED,
   SET_SEAT_BOOKED,
 } from "../../store/types/name.type";
 import "./booking.scss";
+import {
+  DISPLAY_LOADING_ACTION,
+  HIDE_LOADING_ACTION,
+} from "../../store/reducers/actions/loading.action";
 
 const { TabPane } = Tabs;
-const onChange = (key) => {
-  // console.log(key);
-};
 
-export default function (props) {
+export default function BookingTicket(props) {
+  const { tabActives } = useSelector((state) => state.quanlydatveReducer);
+  const dispatch = useDispatch();
   return (
     <div className="p-20">
-      <Tabs defaultActiveKey="1" onChange={onChange}>
+      <Tabs
+        defaultActiveKey="1"
+        activeKey={tabActives}
+        onChange={(key) => {
+          dispatch({ type: CHANGE_TABS, payload: key });
+        }}
+      >
         <TabPane tab="Đặt vé" key="1">
           <Booking {...props} />
         </TabPane>
@@ -45,13 +56,13 @@ function Booking(props) {
   const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
   const quanLyDatve = useSelector((state) => state.quanlydatveReducer);
   const { thongTinPhim, danhSachGhe } = quanLyDatve.chiTietPhongVe;
-  const { danhSachGheDaDat, danhSachDatVe } = quanLyDatve;
+  const { danhSachGheDangDat, danhSachDatVe } = quanLyDatve;
   // const [selectSeat, setSelectSeat] = useState();
-
+  // console.log(quanlynguoidung);
   const dispatch = useDispatch();
   const params = useParams();
   const { state: chiTietDatVe } = useAsync({
-    dependancies: [],
+    dependancies: [danhSachDatVe],
     service: () => fetchCheduleShowMovieApi(params.id),
   });
   useEffect(() => {
@@ -59,26 +70,23 @@ function Booking(props) {
       type: SET_BOOKING_MOVIE,
       payload: chiTietDatVe,
     });
-  }, [chiTietDatVe]);
+  }, [chiTietDatVe, dispatch]);
   useEffect(() => {
     dispatch({
       type: SET_BOOK_TICKET,
-      payload: { maLichChieu: params.id, danhSachVe: danhSachGheDaDat },
+      payload: { maLichChieu: params.id, danhSachVe: danhSachGheDangDat },
     });
-  }, [danhSachGheDaDat]);
+  }, [danhSachGheDangDat, dispatch, params.id]);
+
   const handleBookingTicket = async () => {
-    // const dsVe = danhSachGheDaDat?.map((ele) => {
-    //   return {
-    //     maGhe: ele.maGhe,
-    //     giaVe: ele.giaVe,
-    //   };
-    // });
-    // const submitVe = {
-    //   maLichChieu: params.id,
-    //   danhSachVe: dsVe
-    // }
-    // console.log(submitVe);
+    dispatch(DISPLAY_LOADING_ACTION);
     await fetchBookedTicketApi(danhSachDatVe);
+    // dat ve thanh cong
+    // await fetchCheduleShowMovieApi(danhSachDatVe.maLichChieu);
+    dispatch({ type: SET_BOOK_TICKET });
+    dispatch({ type: FINISH_BOOKTICKET });
+    dispatch(HIDE_LOADING_ACTION);
+    dispatch({ type: CHANGE_TABS, payload: "2" });
   };
 
   const renderSeat = () => {
@@ -88,7 +96,7 @@ function Booking(props) {
       let classUserDatVe = "";
       let classGheDangDat = "";
 
-      let indexGheDangDat = danhSachGheDaDat?.findIndex(
+      let indexGheDangDat = danhSachGheDangDat?.findIndex(
         (gheDD) => gheDD.maGhe === ele.maGhe
       );
       if (indexGheDangDat !== -1) {
@@ -112,7 +120,7 @@ function Booking(props) {
             className={`ghe ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classUserDatVe} text-center`}
           >
             {ele.daDat ? (
-              classUserDatVe != "" ? (
+              classUserDatVe !== "" ? (
                 <UserOutlined
                   style={{
                     fontWeight: "bold",
@@ -225,7 +233,7 @@ function Booking(props) {
           <div className="px-5">
             <h3 className="text-green-400 text-center text-2xl">
               {" "}
-              {danhSachGheDaDat
+              {danhSachGheDangDat
                 .reduce((pre, curr) => {
                   return (pre += curr.giaVe);
                 }, 0)
@@ -243,7 +251,7 @@ function Booking(props) {
             <div className="flex flex-row">
               <div className="w-4/5">
                 <span className="text-red-400">Ghế</span>
-                {_.sortBy(danhSachGheDaDat, ["stt"])?.map((ele, index) => {
+                {_.sortBy(danhSachGheDangDat, ["stt"])?.map((ele, index) => {
                   return (
                     <span key={index} className="text-green-500 text-xl">
                       {" "}
@@ -253,7 +261,7 @@ function Booking(props) {
                 })}
               </div>
               <div className="text-right col-span-1">
-                {danhSachGheDaDat
+                {danhSachGheDangDat
                   .reduce((pre, curr) => {
                     return (pre += curr.giaVe);
                   }, 0)
@@ -288,12 +296,13 @@ function Booking(props) {
     </div>
   );
 }
+// /////////////////////
 
 function KetQuaDatVe(props) {
-  // const { quanlynguoidung } = useSelector((state) => state.quanlyUserReducer);
-
+  // const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
+  // console.log(quanlynguoidung);
   const { infoUserTicket } = useSelector((state) => state.quanlyUserReducer);
-  console.log(infoUserTicket);
+  // console.log(infoUserTicket);
   const dispatch = useDispatch();
   const { state: historyTicket } = useAsync({
     dependancies: [],
@@ -304,11 +313,12 @@ function KetQuaDatVe(props) {
       type: SET_HISTORY_BOOKED,
       payload: historyTicket,
     });
-  }, [historyTicket]);
+  }, [historyTicket, dispatch]);
 
   const renderInforTicket = () => {
     return infoUserTicket.thongTinDatVe?.map((ele, index) => {
       const dsGhe = _.first(ele.danhSachGhe);
+      // console.log(dsGhe.tenGhe);
       return (
         <div className="p-2  md:w-1/2 w-full" key={index}>
           <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
@@ -318,14 +328,23 @@ function KetQuaDatVe(props) {
               src={ele.hinhAnh}
             />
             <div className="flex-grow">
-              <h5 className="text-gray-900 title-font font-medium">
+              <h5 className="text-gray-900 title-font font-medium text-red-500">
                 {ele.tenPhim}
               </h5>
               <p className="text-gray-500">
-                Giờ chiếu: {moment(ele.ngayDat).format("hh:mm A")} - Ngày chiếu: {moment(ele.ngayDat).format("DD/MM/YYYY")}
+                Giờ chiếu: {moment(ele.ngayDat).format("hh:mm A")} - Ngày chiếu:{" "}
+                {moment(ele.ngayDat).format("DD/MM/YYYY")}
               </p>
-              <p className="text-gray-500">
-                Địa điểm: {dsGhe.tenHeThongRap} - {dsGhe.tenRap} - Ghế: <span className="text-lime-500">{dsGhe.tenGhe}</span>{""}                
+              <p className="text-gray-500">Địa điểm: {dsGhe.tenHeThongRap}</p>
+              <p className="text-gray-500 flex flex-wrap">
+                Rạp: {dsGhe.tenRap} - Ghế:{" "}
+                {ele.danhSachGhe.map((ghe, index) => {
+                  return (
+                    <span className="text-lime-500 " key={index}>
+                      [ {ghe.tenGhe} ]{" "}
+                    </span>
+                  );
+                })}
               </p>
               <p className="text-gray-500">
                 Thời lượng phim: {ele.thoiLuongPhim} phút
@@ -338,7 +357,7 @@ function KetQuaDatVe(props) {
   };
   return (
     <section className="text-gray-600 body-font">
-      <div className="container px-5 py-24 mx-auto">
+      <div className=" px-5 py-24 mx-auto">
         <div className="flex flex-col text-center w-full mb-10">
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-yellow-700">
             Lịch sử đặt vé của khách hàng

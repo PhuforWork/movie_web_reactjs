@@ -17,7 +17,7 @@ const fetchBookedTicketApi = (data) => {
 
 const fetchHistoryTicketApi = () => {
   return request({
-    url: "/QuanLyNguoiDung/ThongTinTaiKhoan",
+    url: `/QuanLyNguoiDung/ThongTinTaiKhoan`,
     method: "POST",
   });
 };

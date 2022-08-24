@@ -1,4 +1,6 @@
 import {
+  CHANGE_TABS,
+  FINISH_BOOKTICKET,
   SET_BOOKING_MOVIE,
   SET_BOOK_TICKET,
   SET_SEAT_BOOKED,
@@ -6,8 +8,9 @@ import {
 
 const BOOKING_MOVIE_DEFAULT = {
   chiTietPhongVe: {},
-  danhSachGheDaDat: [],
+  danhSachGheDangDat: [],
   danhSachDatVe: [],
+  tabActives: "1",
 };
 
 export const quanlydatveReducer = (
@@ -20,7 +23,7 @@ export const quanlydatveReducer = (
       return { ...state };
     }
     case SET_SEAT_BOOKED: {
-      let danhSachGheCapNhat = [...state.danhSachGheDaDat];
+      let danhSachGheCapNhat = [...state.danhSachGheDangDat];
       let indx = danhSachGheCapNhat.findIndex(
         (ele) => ele.maGhe === payload.maGhe
       );
@@ -29,10 +32,18 @@ export const quanlydatveReducer = (
       } else {
         danhSachGheCapNhat.push(payload);
       }
-      return { ...state, danhSachGheDaDat: danhSachGheCapNhat };
+      return { ...state, danhSachGheDangDat: danhSachGheCapNhat };
     }
     case SET_BOOK_TICKET: {
       state.danhSachDatVe = payload;
+      return { ...state };
+    }
+    case FINISH_BOOKTICKET: {
+      state.danhSachGheDangDat = [];
+      return { ...state };
+    }
+    case CHANGE_TABS: {
+      state.tabActives = payload;
       return { ...state };
     }
     default:
