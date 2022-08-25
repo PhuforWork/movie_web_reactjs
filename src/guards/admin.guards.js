@@ -8,12 +8,13 @@ export default function AdminGuards() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!quanlynguoidung.userAccount) {
-      notification.warning({
-        message: "Khách hàng chưa đăng nhập hoặc nhập sai tài khoản",
-      });
-      return navigate("/adminguards/login");
-    } else if (
+    // if (!quanlynguoidung.userAccount) {
+    //   notification.warning({
+    //     message: "Khách hàng chưa đăng nhập hoặc nhập sai tài khoản",
+    //   });
+    //   return navigate("/adminguards/login");
+    // } 
+    if (
       quanlynguoidung.userAccount &&
       quanlynguoidung.userAccount.maLoaiNguoiDung !== "QuanTri"
     ) {

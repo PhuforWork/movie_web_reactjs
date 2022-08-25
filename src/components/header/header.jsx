@@ -1,4 +1,7 @@
+import { Select } from "antd";
 import React from "react";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -6,8 +9,13 @@ import {
   USER_ACCOUNT_KEY,
 } from "../../store/types/name.type";
 import "./header.scss";
+const { Option } = Select;
 
 export default function Header() {
+  const { t, i18n } = useTranslation();
+  const handleChange = (value) => {
+    i18n.changeLanguage(value);
+  };
   const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,6 +27,9 @@ export default function Header() {
     });
     navigate("/home");
   };
+  useEffect(() => {
+    i18n.changeLanguage("en");
+  }, []);
   return (
     <div>
       <header className="px-4 py-2 bg-slate-900  opacity-80 dark:text-gray-100 fixed w-full z-10">
@@ -82,8 +93,13 @@ export default function Header() {
           <div className="items-center flex-shrink-0 hidden lg:flex">
             {!quanlynguoidung.userAccount ? (
               <>
-                <button className="self-center px-8 py-3 rounded mx-2 text-orange-600 ">
-                  Register
+                <button
+                  onClick={() => {
+                    navigate("/adminguards/register")
+                  }}
+                  className="self-center px-8 py-3 rounded mx-2 text-orange-600 "
+                >
+                  {t("Signup")}
                 </button>
                 <button
                   onClick={() => {
@@ -91,22 +107,35 @@ export default function Header() {
                   }}
                   className="self-center px-8 py-3 font-semibold rounded bg-green-500 "
                 >
-                  Log in
+                  {t("Signin")}
                 </button>
               </>
             ) : (
               <>
                 <span className="mr-2 text-emerald-400">
-                  Xin chào {quanlynguoidung.userAccount.hoTen}
+                  {t("hello")} {quanlynguoidung.userAccount.hoTen}
                 </span>
                 <button
                   onClick={handleLogout}
                   className="self-center px-8 py-3 font-semibold rounded bg-green-500 "
                 >
-                  Log out
+                  {t("Logout")}
                 </button>
               </>
             )}
+            <Select
+              defaultValue="en"
+              activeValue="en"
+              style={{
+                width: 120,
+                paddingLeft: 10,
+              }}
+              onChange={handleChange}
+            >
+              <Option value="en">Eng</Option>
+              <Option value="chi">Chi</Option>
+              <Option value="vi">Vi</Option>
+            </Select>
           </div>
         </div>
       </header>

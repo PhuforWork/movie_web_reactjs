@@ -13,6 +13,16 @@ if (userAccount) {
 
 const USER_DEFAULT = {
   userAccount: userAccount,
+  userRegister: [
+    {
+      taiKhoan: "string",
+      matKhau: "string",
+      email: "string",
+      soDt: "string",
+      maNhom: "string",
+      hoTen: "string",
+    },
+  ],
   infoUserTicket: [],
 };
 

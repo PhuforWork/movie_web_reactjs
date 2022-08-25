@@ -1,7 +1,10 @@
 import moment from "moment";
 import { Tabs } from "antd";
 import _ from "lodash";
-import { CloseOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  CloseOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import React, { Fragment } from "react";
 // import { useState } from "react";
 import { useEffect } from "react";
@@ -26,6 +29,7 @@ import {
   DISPLAY_LOADING_ACTION,
   HIDE_LOADING_ACTION,
 } from "../../store/reducers/actions/loading.action";
+import Loading from "../../components/loading/loading";
 
 const { TabPane } = Tabs;
 
@@ -58,7 +62,7 @@ function Booking(props) {
   const { thongTinPhim, danhSachGhe } = quanLyDatve.chiTietPhongVe;
   const { danhSachGheDangDat, danhSachDatVe } = quanLyDatve;
   // const [selectSeat, setSelectSeat] = useState();
-  // console.log(quanlynguoidung);
+  // console.log(khachHangDangDat);
   const dispatch = useDispatch();
   const params = useParams();
   const { state: chiTietDatVe } = useAsync({
@@ -70,13 +74,13 @@ function Booking(props) {
       type: SET_BOOKING_MOVIE,
       payload: chiTietDatVe,
     });
-  }, [chiTietDatVe, dispatch]);
+  }, [chiTietDatVe]);
   useEffect(() => {
     dispatch({
       type: SET_BOOK_TICKET,
       payload: { maLichChieu: params.id, danhSachVe: danhSachGheDangDat },
     });
-  }, [danhSachGheDangDat, dispatch, params.id]);
+  }, [danhSachGheDangDat]);
 
   const handleBookingTicket = async () => {
     dispatch(DISPLAY_LOADING_ACTION);
@@ -91,6 +95,7 @@ function Booking(props) {
 
   const renderSeat = () => {
     return danhSachGhe?.map((ele, index) => {
+
       let classGheVip = ele.loaiGhe === "Vip" && "gheVip";
       let classGheDaDat = ele.daDat && "gheDaDat";
       let classUserDatVe = "";
@@ -116,8 +121,8 @@ function Booking(props) {
                 payload: ele,
               });
             }}
-            disabled={ele.daDat}
-            className={`ghe ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classUserDatVe} text-center`}
+            disabled={ele.daDat }
+            className={`ghe ${classGheVip} ${classGheDaDat} ${classGheDangDat} ${classUserDatVe}  text-center`}
           >
             {ele.daDat ? (
               classUserDatVe !== "" ? (
@@ -139,7 +144,7 @@ function Booking(props) {
                   }}
                 />
               )
-            ) : (
+            )  : (
               ele.stt
             )}
           </button>
@@ -313,7 +318,7 @@ function KetQuaDatVe(props) {
       type: SET_HISTORY_BOOKED,
       payload: historyTicket,
     });
-  }, [historyTicket, dispatch]);
+  }, [historyTicket]);
 
   const renderInforTicket = () => {
     return infoUserTicket.thongTinDatVe?.map((ele, index) => {
@@ -357,6 +362,7 @@ function KetQuaDatVe(props) {
   };
   return (
     <section className="text-gray-600 body-font">
+      <Loading />
       <div className=" px-5 py-24 mx-auto">
         <div className="flex flex-col text-center w-full mb-10">
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-yellow-700">

@@ -11,11 +11,7 @@ import {
 import { SET_MOVIELIST, SET_MOVIETHEATER } from "../../store/types/name.type";
 // import Film from "../../components/film/film";
 import HomeMenu from "./home-menu";
-
-
-
-
-
+import Loading from "../../components/loading/loading";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -37,16 +33,17 @@ export default function Home() {
       type: SET_MOVIELIST,
       payload: movielistInfo,
     });
-  }, [movielistInfo,dispatch]);
+  }, [movielistInfo]);
 
   useEffect(() => {
     dispatch({
       type: SET_MOVIETHEATER,
       payload: managerTheater,
     });
-  }, [managerTheater,dispatch]);
+  }, [managerTheater]);
   return (
     <div>
+      <Loading />
       <div>
         <HomeCarousel />
       </div>

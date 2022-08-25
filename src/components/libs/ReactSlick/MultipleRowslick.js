@@ -9,6 +9,8 @@ import {
 import Film from "../../film/film";
 import styleSlick from "./MultipleRowslick.module.css";
 
+
+
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (

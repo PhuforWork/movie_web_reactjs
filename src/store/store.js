@@ -6,6 +6,7 @@ import { loadingReducer } from "./reducers/loading.reducer";
 import { quanlydatveReducer } from "./reducers/quanlydatve";
 import { quanlyUserReducer } from "./reducers/quanlynguoidung.reducer";
 import { quanlyrapReducer } from "./reducers/quanlyrap.reducer";
+
 const rootReducer = combineReducers({
   danhsachphimReducer: danhsachphimReducer,
   carouselReducer: carouselReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   quanlyUserReducer: quanlyUserReducer,
   quanlydatveReducer: quanlydatveReducer,
   loadingReducer: loadingReducer,
+
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

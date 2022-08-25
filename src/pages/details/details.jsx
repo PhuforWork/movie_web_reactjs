@@ -7,6 +7,8 @@ import { useAsync } from "../../hooks/useAsync";
 import { fetchInfoCheduleMovieApi } from "../../services/danhsachphim";
 import { SET_CHEDULEMOVIE } from "../../store/types/name.type";
 import "./details.scss";
+import Loading from "../../components/loading/loading";
+
 
 export default function Details(props) {
   const { TabPane } = Tabs;
@@ -41,6 +43,7 @@ export default function Details(props) {
   }, [cheduleMovie]);
   return (
     <div className="container-1" style={{ background: `url(${hinhAnh})` }}>
+      <Loading />
       <div className="filter py-56">
         <div className="grid grid-cols-12 ">
           <div className="col-span-5 col-start-4 component-1 flex items-center">

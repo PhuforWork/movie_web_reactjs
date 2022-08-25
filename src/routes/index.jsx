@@ -1,5 +1,6 @@
 import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
+import Register from "../pages/register/register";
 
 
 const Booking = lazy(()=>import("../pages/booking/booking"));
@@ -51,6 +52,10 @@ export default function Router() {
         {
           path: "/adminguards/login",
           element: <Login />,
+        },
+        {
+          path: "/adminguards/register",
+          element: <Register />,
         },
       ],
     },
