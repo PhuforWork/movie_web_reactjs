@@ -1,5 +1,9 @@
 import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
+import AdminLayout from "../layouts/admin";
+import DashboardManager from "../pages/adminLayout/dashboard/dashboard";
+import FilmsManager from "../pages/adminLayout/films/films";
+import ShowtimeManager from "../pages/adminLayout/showtime/showtime";
 import Register from "../pages/register/register";
 
 
@@ -59,6 +63,24 @@ export default function Router() {
         },
       ],
     },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        {
+          path: "/admin/dashboard",
+          element: <DashboardManager/>
+        },
+        {
+          path: "/admin/films",
+          element: <FilmsManager/>
+        },
+        {
+          path: "/admin/showtime",
+          element: <ShowtimeManager/>
+        },
+      ]
+    }
   ]);
   return routing;
 }
