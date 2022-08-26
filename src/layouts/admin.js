@@ -49,11 +49,6 @@ export default function AdminLayout() {
         message: "Khách hàng không thể vào trang admin",
       });
       return navigate("/home");
-    } else {
-      notification.success({
-        message: "Quyền admin",
-        description: `Chào mừng admin ${quanlynguoidung.userAccount.hoTen}`,
-      });
     }
   }, [quanlynguoidung]);
 

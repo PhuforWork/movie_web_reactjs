@@ -1,0 +1,32 @@
+.ant-input-group > .ant-input:first-child,
+.ant-input-group-addon:first-child {
+  border-top-left-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
+}
+.ant-input-search
+  > .ant-input-group
+  > .ant-input-group-addon:last-child
+  .ant-input-search-button {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px 10px 15px !important;
+  border-radius: 0 20px 20px 0 !important;
+}
+.ant-input {
+  padding-left: 22px !important;
+}
+[type="button"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[type="submit"]:not(:disabled),
+button:not(:disabled) {
+  display: flex;
+  align-items: center !important;
+//   padding: 10px 10px 12px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.ant-btn > .ant-btn-loading-icon {
+    display: flex;
+    align-items: center;
+}
+

@@ -32,12 +32,20 @@ export default function AdminGuards() {
         description: "Đăng nhập thành công",
       });
       setTimeout(() => {
-        notification.success({
-          key,
-          message: `Khách hàng ${quanlynguoidung.userAccount.hoTen}`,
-          description: `Chào mừng quay trở lại`,
-        });
-      }, 1000);
+        if (quanlynguoidung.userAccount.maLoaiNguoiDung !== "QuanTri") {
+          notification.success({
+            key,
+            message: `Khách hàng ${quanlynguoidung.userAccount.hoTen}`,
+            description: `Chào mừng quay trở lại`,
+          });
+        } else if (quanlynguoidung.userAccount.maLoaiNguoiDung === "QuanTri") {
+          notification.success({
+            key,
+            message: "Quyền admin",
+            description: `Chào mừng admin ${quanlynguoidung.userAccount.hoTen}`,
+          });
+        }
+      }, 2000);
     };
     if (quanlynguoidung.userAccount) {
       openNotification();
