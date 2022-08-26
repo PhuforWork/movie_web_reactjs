@@ -1,21 +1,20 @@
-import { AppstoreAddOutlined } from "@ant-design/icons";
+import { AppstoreAddOutlined, SearchOutlined,EditOutlined,DeleteOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 import React, { Fragment, useState } from "react";
-// import { AudioOutlined } from "@ant-design/icons";
 import { Input, Space, Button } from "antd";
-import "./films.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { SET_MOVIELIST } from "../../../store/types/name.type";
 import { useAsync } from "../../../hooks/useAsync";
 import { fetchMovieListApi } from "../../../services/danhsachphim";
+import { NavLink } from "react-router-dom";
 
 export default function FilmsManager() {
   const dispatch = useDispatch();
   const { movieInfoDefault } = useSelector(
     (state) => state.danhsachphimReducer
   );
-  console.log(movieInfoDefault);
+  // console.log(movieInfoDefault);
   const { state: movieInfo } = useAsync({
     dependancies: [],
     service: () => fetchMovieListApi(),
@@ -47,60 +46,90 @@ export default function FilmsManager() {
     {
       title: "Mã phim",
       dataIndex: "maPhim",
-      width:120,
+      width: 120,
       render: (text, object) => {
-        console.log(text);
+        // console.log(text);
         return <span>{text}</span>;
       },
       // specify the condition of filtering result
       // here is that finding the name started with `value`
       onFilter: (value, record) => record.name.indexOf(value) === 0,
       sorter: (a, b) => a.maPhim - b.maPhim,
-      sortDirections: ["descend"],
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Hình ảnh",
       dataIndex: "hinhAnh",
       defaultSortOrder: "descend",
-      width:120,
-      render:(text,object)=>{return<img src={text} alt={object.tenPhim} width={50} height={50}/>},
+      width: 120,
+      render: (text, object) => {
+        return <img src={text} alt={object.tenPhim} width={50} height={50} />;
+      },
     },
     {
       title: "Tên phim",
       dataIndex: "tenPhim",
-      width:300,
-      render:(text)=>{return<p style={{fontWeight:"bold"}}>{text}</p>},
-      sorter: (a, b) => a.tenPhim.length - b.tenPhim.length,
-      sortDirections: ["descend","ascend"],
+      width: 300,
+      render: (text) => {
+        return <p style={{ fontWeight: "bold" }}>{text}</p>;
+      },
+      sorter: (a, b) => {
+        if (a.tenPhim.toLowerCase().trim() > b.tenPhim.toLowerCase().trim()) {
+          return 1;
+        } else {
+          return -1;
+        }
+      },
+      sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Mo ta",
+      title: "Mô tả",
       dataIndex: "moTa",
-      render:(text)=>{return<p>{text}</p>},
+      render: (text, object) => {
+        return (
+          <p>
+            {object.moTa.length > 50
+              ? object.moTa.substr(0, 50) + "..."
+              : object.moTa}
+          </p>
+        );
+      },
     },
-
+    {
+      title: "Hành động",
+      dataIndex: "hanhDong",
+      width:120,
+      render: (text, object) => {
+        return (
+          <Fragment>
+            <button type="button" className="px-2 focus:outline-none text-blue-400 hover:text-white hover:bg-cyan-400 py-2.5 ml-2 font-semibold rounded-md"><EditOutlined style={{display:"flex",alignItems:"center"}}/></button>
+            <button type="button" className="px-2 focus:outline-none text-red-500 hover:text-white hover:bg-red-500 py-2.5 ml-2 font-semibold rounded-md"><DeleteOutlined style={{display:"flex",alignItems:"center"}}/></button>
+          </Fragment>
+        );
+      },
+    },
   ];
-
 
   const data = movieInfoDefault.map((ele, index) => {
     return {
       key: index,
       maPhim: ele.maPhim,
       tenPhim: ele.tenPhim,
-      moTa:ele.moTa,
-      hinhAnh:ele.hinhAnh
-
-    }
+      moTa: ele.moTa,
+      hinhAnh: ele.hinhAnh,
+    };
   });
 
   // console.log(data);
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   const { Search } = Input;
 
-  const onSearch = (value) => console.log(value);
+  const onSearch = (value) => {
+    //console.log(value)
+  };
 
   return (
     <Fragment>
@@ -112,7 +141,11 @@ export default function FilmsManager() {
         }}
       >
         <Button
-          className=""
+          style={{
+            display: "flex",
+            alignItems: "center",
+            padding: "10px 15px",
+          }}
           type="primary"
           icon={<AppstoreAddOutlined />}
           loading={loadings[1]}
@@ -121,18 +154,18 @@ export default function FilmsManager() {
           Thêm phim
         </Button>
         <Search
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
           placeholder="input search text"
           onSearch={onSearch}
-          // suffix={suffix}
-          enterButton
+          enterButton={
+            <SearchOutlined style={{ display: "flex", alignItems: "center" }} />
+          }
         />
       </Space>
-      <Table
-        columns={columns}
-        dataSource={data}
-        onChange={onChange}
-        rowKey="Id"
-      />
+      <Table columns={columns} dataSource={data} onChange={onChange} />
     </Fragment>
   );
 }
