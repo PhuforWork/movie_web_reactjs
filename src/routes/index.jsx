@@ -2,12 +2,15 @@ import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 import AdminLayout from "../layouts/admin";
 import DashboardManager from "../pages/adminLayout/dashboard/dashboard";
+
 import FilmsManager from "../pages/adminLayout/films/films";
 import ShowtimeManager from "../pages/adminLayout/showtime/showtime";
 import Register from "../pages/register/register";
 
-
-const Booking = lazy(()=>import("../pages/booking/booking"));
+const AddFilms = lazy(() =>
+  import("../pages/adminLayout/films/addfilms/addfilms")
+);
+const Booking = lazy(() => import("../pages/booking/booking"));
 const HomeLayout = lazy(() => import("../layouts/home"));
 const Contact = lazy(() => import("../pages/contact/contact"));
 const Details = lazy(() => import("../pages/details/details"));
@@ -69,18 +72,22 @@ export default function Router() {
       children: [
         {
           path: "/admin/dashboard",
-          element: <DashboardManager/>
+          element: <DashboardManager />,
         },
         {
           path: "/admin/films",
-          element: <FilmsManager/>
+          element: <FilmsManager />,
+        },
+        {
+          path: "/admin/addfilms",
+          element: <AddFilms />,
         },
         {
           path: "/admin/showtime",
-          element: <ShowtimeManager/>
+          element: <ShowtimeManager />,
         },
-      ]
-    }
+      ],
+    },
   ]);
   return routing;
 }

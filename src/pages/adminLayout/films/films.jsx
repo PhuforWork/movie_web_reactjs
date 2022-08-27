@@ -1,4 +1,9 @@
-import { AppstoreAddOutlined, SearchOutlined,EditOutlined,DeleteOutlined } from "@ant-design/icons";
+import {
+  AppstoreAddOutlined,
+  SearchOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import { Table } from "antd";
 import React, { Fragment, useState } from "react";
 import { Input, Space, Button } from "antd";
@@ -7,9 +12,10 @@ import { useEffect } from "react";
 import { SET_MOVIELIST } from "../../../store/types/name.type";
 import { useAsync } from "../../../hooks/useAsync";
 import { fetchMovieListApi } from "../../../services/danhsachphim";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, Outlet } from "react-router-dom";
 
 export default function FilmsManager() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { movieInfoDefault } = useSelector(
     (state) => state.danhsachphimReducer
@@ -37,6 +43,7 @@ export default function FilmsManager() {
       setLoadings((prevLoadings) => {
         const newLoadings = [...prevLoadings];
         newLoadings[index] = false;
+        navigate("/admin/addfilms");
         return newLoadings;
       });
     }, 1000);
@@ -98,12 +105,24 @@ export default function FilmsManager() {
     {
       title: "Hành động",
       dataIndex: "hanhDong",
-      width:120,
+      width: 120,
       render: (text, object) => {
         return (
           <Fragment>
-            <button type="button" className="px-2 focus:outline-none text-blue-400 hover:text-white hover:bg-cyan-400 py-2.5 ml-2 font-semibold rounded-md"><EditOutlined style={{display:"flex",alignItems:"center"}}/></button>
-            <button type="button" className="px-2 focus:outline-none text-red-500 hover:text-white hover:bg-red-500 py-2.5 ml-2 font-semibold rounded-md"><DeleteOutlined style={{display:"flex",alignItems:"center"}}/></button>
+            <button
+              type="button"
+              className="px-2 focus:outline-none text-blue-400 hover:text-white hover:bg-cyan-400 py-2.5 ml-2 font-semibold rounded-md"
+            >
+              <EditOutlined style={{ display: "flex", alignItems: "center" }} />
+            </button>
+            <button
+              type="button"
+              className="px-2 focus:outline-none text-red-500 hover:text-white hover:bg-red-500 py-2.5 ml-2 font-semibold rounded-md"
+            >
+              <DeleteOutlined
+                style={{ display: "flex", alignItems: "center" }}
+              />
+            </button>
           </Fragment>
         );
       },
@@ -149,7 +168,9 @@ export default function FilmsManager() {
           type="primary"
           icon={<AppstoreAddOutlined />}
           loading={loadings[1]}
-          onClick={() => enterLoading(1)}
+          onClick={() => {
+            enterLoading(1);
+          }}
         >
           Thêm phim
         </Button>
