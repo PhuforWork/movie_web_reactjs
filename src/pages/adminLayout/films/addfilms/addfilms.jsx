@@ -14,7 +14,6 @@ import {
 } from "antd";
 
 import { useFormik } from "formik";
-import { values } from "lodash";
 import moment from "moment";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -31,7 +30,7 @@ import { GET_INFO_MOVIE } from "../../../../store/types/name.type";
 export default function AddFilms() {
   const params = useParams();
   const { thongTinFilm } = useSelector((state) => state.danhsachphimReducer);
-  // console.log(thongTinFilm);
+  console.log(thongTinFilm);
   const dispatch = useDispatch();
   const [componentSize, setComponentSize] = useState("default");
   const [imgSrc, setImgSrc] = useState("");
@@ -168,9 +167,9 @@ export default function AddFilms() {
       <Form.Item label="Ngày khởi chiếu">
         <DatePicker
           onChange={handleChangeDate}
-          format={customFormat}
-          defaultValue={moment(formik.values.ngayKhoiChieu, true)}
-          // value={moment(formik.values.ngayKhoiChieu)}
+          format="DD/MM/YYYY"
+          value={moment(formik.values.ngayKhoiChieu)}
+          
         />
       </Form.Item>
       <Form.Item label="Sắp chiếu" valuePropName="checked">
