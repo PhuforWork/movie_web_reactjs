@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAsync } from "../../hooks/useAsync";
-import { fetchInfoTheaterApi } from "../../services/danhsachphim";
+import { fetchInfoTheaterApi } from "../../services/quanlyphim";
 import { SET_INFOTHEATER } from "../../store/types/name.type";
 
 export default function Footer() {

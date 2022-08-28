@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, NavLink } from "react-router-dom";
 import { useAsync } from "../../hooks/useAsync";
-import { fetchInfoCheduleMovieApi } from "../../services/danhsachphim";
+import { fetchInfoCheduleMovieApi } from "../../services/quanlyphim";
 import { SET_CHEDULEMOVIE } from "../../store/types/name.type";
 import "./details.scss";
 import Loading from "../../components/loading/loading";

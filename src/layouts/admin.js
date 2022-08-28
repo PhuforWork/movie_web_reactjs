@@ -1,97 +1,97 @@
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  FolderOutlined,
-  TeamOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
   UserOutlined,
+  VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, notification } from "antd";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Outlet, useNavigate,NavLink } from "react-router-dom";
-const { Header, Content, Footer, Sider } = Layout;
-
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
-
-const items = [
-  getItem("User", "1", <UserOutlined />),
-  getItem("Films", "films1", <FolderOutlined />, [
-    getItem("ListFilms", "3"),<NavLink to="/admin/films" />,
-    getItem("Addfilms", "4"),
-    getItem("Alex", "5"),
-  ]),
-  getItem("Team", "sub2", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
-  ]),
-  // getItem("Files", "9", <FileOutlined />),
-];
+import { Layout, Menu } from "antd";
+import React, { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import "./cssLayout/admin.scss";
 
 export default function AdminLayout() {
-  const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
+  const { Header, Sider, Content } = Layout;
   const navigate = useNavigate();
+  const items = [
+    {
+      key: "1",
+      icon: <UserOutlined />,
+      label: "User",
+      onClick: () => {
+        navigate("/admin/dashboard");
+      },
+    },
+    {
+      key: "2",
+      icon: <VideoCameraOutlined />,
+      label: "Films",
+      children: [
+        {
+          key: "4",
+          label: "List films",
+          onClick: () => {
+            navigate("/admin/films");
+          },
+        },
+        {
+          key: "5",
+          label: "Add films",
+          onClick: () => {
+            navigate("/admin/addfilms");
+          },
+        },
+      ],
+    },
+    {
+      key: "3",
+      icon: <UploadOutlined />,
+      label: "Showtime",
+      onClick: () => {
+        navigate("/admin/showtime");
+      },
+    },
+  ];
   const [collapsed, setCollapsed] = useState(false);
 
-  useEffect(() => {
-    if (
-      quanlynguoidung.userAccount &&
-      quanlynguoidung.userAccount.maLoaiNguoiDung !== "QuanTri"
-    ) {
-      notification.warning({
-        message: "Khách hàng không thể vào trang admin",
-      });
-      return navigate("/home");
-    }
-  }, [quanlynguoidung]);
-
   return (
-    <Layout
-      style={{
-        minHeight: "100vh",
-      }}
-    >
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
-        <div className="logo" />
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <div className="logo"></div>
         <Menu
           theme="dark"
-          defaultSelectedKeys={["1"]}
           mode="inline"
+          defaultSelectedKeys={["1"]}
           items={items}
         />
       </Sider>
       <Layout className="site-layout">
         <Header
-          className="site-layout-background"
+          className="site-layout-background site-header-icons"
           style={{
             padding: 0,
           }}
-        />
+        >
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "trigger",
+              onClick: (e) => {
+                // console.log(e);
+                return setCollapsed(!collapsed);
+              },
+            }
+          )}
+        </Header>
         <Content
+          className="site-layout-background"
           style={{
-            margin: "0 16px",
+            margin: "24px 16px",
+            padding: 24,
+            minHeight: 280,
           }}
         >
-          <div
-            className="site-layout-background"
-            style={{
-              padding: 24,
-              minHeight: 360,
-            }}
-          >
-            <Outlet />
-          </div>
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

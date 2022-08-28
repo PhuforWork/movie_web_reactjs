@@ -30,4 +30,25 @@ const fetchInfoCheduleMovieApi = (maPhim) => {
   });
 };
 
-export { fetchMovieListApi, fetchManagerTheaterApi, fetchInfoTheaterApi,fetchInfoCheduleMovieApi };
+const fetchAddMovieUploadPicApi = (data) => {
+  return request({
+    url: `/QuanLyPhim/ThemPhimUploadHinh`,
+    method: "POST",
+    data: data,
+  });
+};
+
+const fetchGetInfoMovieApi = (maPhim) => {
+  return request({
+    url: `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${maPhim}`,
+    method: "GET",
+  });
+};
+export {
+  fetchMovieListApi,
+  fetchManagerTheaterApi,
+  fetchInfoTheaterApi,
+  fetchInfoCheduleMovieApi,
+  fetchAddMovieUploadPicApi,
+  fetchGetInfoMovieApi
+};

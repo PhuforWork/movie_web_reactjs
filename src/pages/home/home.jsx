@@ -7,7 +7,7 @@ import { useAsync } from "../../hooks/useAsync";
 import {
   fetchManagerTheaterApi,
   fetchMovieListApi,
-} from "../../services/danhsachphim";
+} from "../../services/quanlyphim";
 import { SET_MOVIELIST, SET_MOVIETHEATER } from "../../store/types/name.type";
 // import Film from "../../components/film/film";
 import HomeMenu from "./home-menu";

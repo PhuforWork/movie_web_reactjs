@@ -11,8 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { SET_MOVIELIST } from "../../../store/types/name.type";
 import { useAsync } from "../../../hooks/useAsync";
-import { fetchMovieListApi } from "../../../services/danhsachphim";
-import { NavLink, useNavigate, Outlet } from "react-router-dom";
+import { fetchMovieListApi } from "../../../services/quanlyphim";
+import { NavLink, useNavigate, Outlet, useParams } from "react-router-dom";
 
 export default function FilmsManager() {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ export default function FilmsManager() {
         navigate("/admin/addfilms");
         return newLoadings;
       });
-    }, 1000);
+    }, 100);
   };
 
   const columns = [
@@ -108,22 +108,23 @@ export default function FilmsManager() {
       width: 120,
       render: (text, object) => {
         return (
-          <Fragment>
-            <button
-              type="button"
-              className="px-2 focus:outline-none text-blue-400 hover:text-white hover:bg-cyan-400 py-2.5 ml-2 font-semibold rounded-md"
+          <div className="flex items-center">
+            <NavLink
+              to={`/admin/editfilms/${object.maPhim}`}
+              className="flex items-center py-2 px-2 focus:outline-none text-blue-400 hover:text-white hover:bg-cyan-400  ml-2 font-semibold rounded-md"
             >
               <EditOutlined style={{ display: "flex", alignItems: "center" }} />
-            </button>
-            <button
-              type="button"
-              className="px-2 focus:outline-none text-red-500 hover:text-white hover:bg-red-500 py-2.5 ml-2 font-semibold rounded-md"
+            </NavLink>
+
+            <NavLink
+              to=""
+              className="flex items-center py-2 px-2 focus:outline-none text-red-500 hover:text-white hover:bg-red-500 ml-2 font-semibold rounded-md"
             >
               <DeleteOutlined
                 style={{ display: "flex", alignItems: "center" }}
               />
-            </button>
-          </Fragment>
+            </NavLink>
+          </div>
         );
       },
     },

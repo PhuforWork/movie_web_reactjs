@@ -83,6 +83,10 @@ export default function Router() {
           element: <AddFilms />,
         },
         {
+          path: "/admin/editfilms/:id",
+          element: <AddFilms />,
+        },
+        {
           path: "/admin/showtime",
           element: <ShowtimeManager />,
         },
