@@ -2,6 +2,7 @@ import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 import AdminLayout from "../layouts/admin";
 import DashboardManager from "../pages/adminLayout/dashboard/dashboard";
+import EditFilms from "../pages/adminLayout/films/editfilms/editfilms";
 
 import FilmsManager from "../pages/adminLayout/films/films";
 import ShowtimeManager from "../pages/adminLayout/showtime/showtime";
@@ -84,7 +85,7 @@ export default function Router() {
         },
         {
           path: "/admin/editfilms/:id",
-          element: <AddFilms />,
+          element: <EditFilms />,
         },
         {
           path: "/admin/showtime",

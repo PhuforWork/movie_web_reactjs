@@ -40,8 +40,16 @@ const fetchAddMovieUploadPicApi = (data) => {
 
 const fetchGetInfoMovieApi = (maPhim) => {
   return request({
-    url: `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${maPhim}`,
+    url: `/QuanLyPhim/LayThongTinPhim?MaPhim=${maPhim}`,
     method: "GET",
+  });
+};
+
+const fetchCapNhatPhimUpload = (data) => {
+  return request({
+    url: `/QuanLyPhim/CapNhatPhimUpload`,
+    method: "POST",
+    data: data,
   });
 };
 export {
@@ -50,5 +58,6 @@ export {
   fetchInfoTheaterApi,
   fetchInfoCheduleMovieApi,
   fetchAddMovieUploadPicApi,
-  fetchGetInfoMovieApi
+  fetchGetInfoMovieApi,
+  fetchCapNhatPhimUpload,
 };

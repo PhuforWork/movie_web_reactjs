@@ -29,25 +29,30 @@ import {
 } from "../../../../services/quanlyphim";
 import { GET_INFO_MOVIE } from "../../../../store/types/name.type";
 
-export default function AddFilms() {
+export default function EditFilms() {
+  const params = useParams();
+  const { thongTinFilm } = useSelector((state) => state.danhsachphimReducer);
+  //   console.log(thongTinFilm);
   const dispatch = useDispatch();
   const [componentSize, setComponentSize] = useState("default");
   const [imgSrc, setImgSrc] = useState("");
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      tenPhim: "",
-      trailer: "",
-      moTa: "",
-      ngayKhoiChieu: "",
-      dangChieu: false,
-      sapChieu: false,
-      hot: false,
-      danhGia: 0,
-      hinhAnh: {},
+      maPhim: thongTinFilm?.maPhim,
+      tenPhim: thongTinFilm?.tenPhim,
+      trailer: thongTinFilm?.trailer,
+      moTa: thongTinFilm?.moTa,
+      ngayKhoiChieu: moment(thongTinFilm?.ngayKhoiChieu),
+      dangChieu: thongTinFilm?.dangChieu,
+      sapChieu: thongTinFilm?.sapChieu,
+      hot: thongTinFilm?.hot,
+      danhGia: thongTinFilm?.danhGia,
+      hinhAnh: null,
     },
     onSubmit: async (values) => {
       let formData = new FormData();
-      // console.log(values);
+      console.log(values);
       // console.log(formData);
       values.maNhom = GROUP_ID;
 
@@ -55,14 +60,16 @@ export default function AddFilms() {
         if (key !== "hinhAnh") {
           formData.append(key, values[key]);
         } else {
-          formData.append("File", values.hinhAnh, values.hinhAnh.name);
+          if (values.hinhAnh !== null) {
+            formData.append("File", values.hinhAnh, values.hinhAnh.name);
+          }
         }
       }
       // console.log(formData);
       try {
-        await fetchAddMovieUploadPicApi(formData);
+        await fetchCapNhatPhimUpload(formData);
         notification.success({
-          message: "Thêm phim thành công",
+          message: "Cập nhật thành công",
         });
       } catch (error) {
         console.log(error);
@@ -70,11 +77,22 @@ export default function AddFilms() {
     },
   });
 
+  const { state: getInfoMovie } = useAsync({
+    dependancies: [params.id],
+    service: () => fetchGetInfoMovieApi(params.id),
+    condition: !!params.id,
+  });
+  useEffect(() => {
+    dispatch({
+      type: GET_INFO_MOVIE,
+      payload: getInfoMovie,
+    });
+  }, [getInfoMovie]);
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
   };
   const handleChangeDate = (event) => {
-    let ngaykhoichieu = moment(event).format("DD/MM/YYYY");
+    let ngaykhoichieu = moment(event);
     formik.setFieldValue("ngayKhoiChieu", ngaykhoichieu);
   };
   const handleChangField = (name) => {
@@ -86,7 +104,7 @@ export default function AddFilms() {
   const handleChangFile = (event) => {
     // lay file
     let file = event.target.files[0];
-    // console.log(file);
+    console.log(file);
     // doc file
     if (
       file.type === "image/jpeg" ||
@@ -94,6 +112,8 @@ export default function AddFilms() {
       file.type === "image/gif" ||
       file.type === " image/png"
     ) {
+      // lưu vào formik
+      formik.setFieldValue("hinhAnh", file);
       // tạo đối tượng đọc file
       let reader = new FileReader();
       reader.readAsDataURL(file);
@@ -102,8 +122,6 @@ export default function AddFilms() {
         setImgSrc(event.target.result);
       };
     }
-    // lưu vào formik
-    formik.setFieldValue("hinhAnh", file);
   };
 
   return (
@@ -130,13 +148,25 @@ export default function AddFilms() {
         </Radio.Group>
       </Form.Item>
       <Form.Item label="Tên Phim">
-        <Input name="tenPhim" onChange={formik.handleChange} />
+        <Input
+          name="tenPhim"
+          onChange={formik.handleChange}
+          value={formik.values.tenPhim}
+        />
       </Form.Item>
       <Form.Item label="Trailer">
-        <Input name="trailer" onChange={formik.handleChange} />
+        <Input
+          name="trailer"
+          onChange={formik.handleChange}
+          value={formik.values.trailer}
+        />
       </Form.Item>
       <Form.Item label="Mô tả">
-        <Input name="moTa" onChange={formik.handleChange} />
+        <Input
+          name="moTa"
+          onChange={formik.handleChange}
+          value={formik.values.moTa}
+        />
       </Form.Item>
 
       <Form.Item label="Ngày khởi chiếu">
@@ -144,13 +174,20 @@ export default function AddFilms() {
           locale={locale}
           onChange={handleChangeDate}
           format="DD/MM/YYYY"
+          value={moment(formik.values.ngayKhoiChieu, "DD/MM/YYYY")}
         />
       </Form.Item>
       <Form.Item label="Sắp chiếu" valuePropName="checked">
-        <Switch onChange={handleChangField("sapChieu")} />
+        <Switch
+          onChange={handleChangField("sapChieu")}
+          checked={formik.values.sapChieu}
+        />
       </Form.Item>
       <Form.Item label="Đang chiếu" valuePropName="checked">
-        <Switch onChange={handleChangField("dangChieu")} />
+        <Switch
+          onChange={handleChangField("dangChieu")}
+          checked={formik.values.dangChieu}
+        />
       </Form.Item>
       <Form.Item label="Hot" valuePropName="checked">
         <Switch
@@ -159,7 +196,12 @@ export default function AddFilms() {
         />
       </Form.Item>
       <Form.Item label="Số sao">
-        <InputNumber onChange={handleChangField("danhGia")} min={1} max={10} />
+        <InputNumber
+          onChange={handleChangField("danhGia")}
+          min={1}
+          max={10}
+          value={formik.values.danhGia}
+        />
       </Form.Item>
       <Form.Item label="Hình ảnh">
         <input
@@ -169,9 +211,9 @@ export default function AddFilms() {
           accept="image/png, image/jpeg, image/jpg, image/gif"
         />
         <img
-          src={imgSrc}
+          src={imgSrc === "" ? thongTinFilm.hinhAnh : imgSrc}
           style={
-            imgSrc
+            imgSrc || thongTinFilm.hinhAnh
               ? { width: 300, height: 400, paddingTop: 10 }
               : { paddingTop: 10 }
           }
@@ -183,7 +225,7 @@ export default function AddFilms() {
           type="submit"
           className="bg-blue-500 text-white px-3 py-1 rounded"
         >
-          Thêm phim
+          Cập nhật
         </button>
       </Form.Item>
     </Form>
