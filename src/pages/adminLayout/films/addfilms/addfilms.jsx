@@ -12,8 +12,9 @@ import {
   Switch,
   TreeSelect,
 } from "antd";
-
+import locale from "antd/lib/date-picker/locale/vi_VN";
 import { useFormik } from "formik";
+import "moment/locale/vi";
 import moment from "moment";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -88,6 +89,7 @@ export default function AddFilms() {
     setComponentSize(size);
   };
   const handleChangeDate = (event) => {
+    console.log(event);
     let ngaykhoichieu = moment(event).format("DD/MM/YYYY");
     formik.setFieldValue("ngayKhoiChieu", ngaykhoichieu);
   };
@@ -117,8 +119,7 @@ export default function AddFilms() {
       formik.setFieldValue("hinhAnh", file);
     }
   };
-  const dateFormat = 'DD/MM/YYYY';
-  const customFormat = (value) => `${value.format(dateFormat)}`;
+
   return (
     <Form
       onSubmitCapture={formik.handleSubmit}
@@ -166,10 +167,14 @@ export default function AddFilms() {
 
       <Form.Item label="Ngày khởi chiếu">
         <DatePicker
-          onChange={handleChangeDate}
+          locale={locale}
+          onChange={handleChangeDate}   
           format="DD/MM/YYYY"
-          value={moment(formik.values.ngayKhoiChieu)}
-          
+          value={
+            formik.values.ngayKhoiChieu
+              ?  moment(formik.values.ngayKhoiChieu)
+              : undefined
+          }
         />
       </Form.Item>
       <Form.Item label="Sắp chiếu" valuePropName="checked">
