@@ -4,19 +4,18 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { Table } from "antd";
+import { notification, Table } from "antd";
 import React, { Fragment, useState } from "react";
 import { Input, Space, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { ALL_PHIM, SET_MOVIELIST } from "../../../store/types/name.type";
+import { SET_MOVIELIST } from "../../../store/types/name.type";
 import { useAsync } from "../../../hooks/useAsync";
 import {
   fetchDeleteMovieApi,
   fetchMovieListApi,
 } from "../../../services/quanlyphim";
-import { NavLink, useNavigate, Outlet, useParams } from "react-router-dom";
-import { find, findIndex } from "lodash";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function FilmsManager() {
   const navigate = useNavigate();
@@ -24,7 +23,7 @@ export default function FilmsManager() {
   const { movieInfoDefault } = useSelector(
     (state) => state.danhsachphimReducer
   );
-  // console.log(movieInfoDefault);
+
   const { state: movieInfoList } = useAsync({
     dependancies: [],
     service: () => fetchMovieListApi(),
@@ -125,18 +124,19 @@ export default function FilmsManager() {
             <span
               style={{ cursor: "pointer" }}
               onClick={async () => {
-                // if (
-                //   window.confirm("Bạn có chắc muốn xóa phim" + object.tenPhim)
-                // ) {
-                const dta = { ...object };
-                const indx = dta.indexOf(
-                  (ele, index) => ele.maPhim === object.maPhim
-                );
-                console.log(dta[indx]);
-                // await fetchDeleteMovieApi(object.maPhim);
-                // await fetchMovieListApi();
-                // }
-                // alert("Xóa phim thành công");
+                if (
+                  window.confirm(`Bạn có chắc muốn xóa phim ${object.tenPhim}`)
+                ) {
+                  await fetchDeleteMovieApi(object.maPhim);
+                  const result = await fetchMovieListApi();
+                  dispatch({
+                    type: SET_MOVIELIST,
+                    payload: result.data.content,
+                  });
+                  notification.success({
+                    message:"Xóa phim thành công"
+                  })
+                }
               }}
               className="flex items-center py-2 px-2 focus:outline-none text-red-500 hover:text-white hover:bg-red-500 ml-2 font-semibold rounded-md"
             >
@@ -167,8 +167,13 @@ export default function FilmsManager() {
 
   const { Search } = Input;
 
-  const onSearch = (value) => {
-    //console.log(value)
+  const onSearch = async (value) => {
+    const result = await fetchMovieListApi(value);
+    dispatch({
+      type: SET_MOVIELIST,
+      payload: result.data.content,
+    });
+    console.log(result);
   };
 
   return (

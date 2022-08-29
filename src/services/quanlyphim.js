@@ -1,9 +1,12 @@
 import { request } from "../configs/axios";
 import { GROUP_ID } from "../constants/common";
 
-const fetchMovieListApi = () => {
+const fetchMovieListApi = (tenPhim = "") => {
   return request({
-    url: `/QuanLyPhim/LayDanhSachPhim?maNhom=${GROUP_ID}`,
+    url:
+      tenPhim !== ""
+        ? `/QuanLyPhim/LayDanhSachPhim?maNhom=${GROUP_ID}&tenPhim=${tenPhim}`
+        : `/QuanLyPhim/LayDanhSachPhim?maNhom=${GROUP_ID}`,
     method: "GET",
   });
 };
