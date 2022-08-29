@@ -19,7 +19,7 @@ import moment from "moment";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GROUP_ID } from "../../../../constants/common";
 import { useAsync } from "../../../../hooks/useAsync";
 import {
@@ -30,6 +30,7 @@ import {
 import { GET_INFO_MOVIE } from "../../../../store/types/name.type";
 
 export default function AddFilms() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [componentSize, setComponentSize] = useState("default");
   const [imgSrc, setImgSrc] = useState("");
@@ -64,6 +65,7 @@ export default function AddFilms() {
         notification.success({
           message: "Thêm phim thành công",
         });
+        navigate("/admin/films");
       } catch (error) {
         console.log(error);
       }

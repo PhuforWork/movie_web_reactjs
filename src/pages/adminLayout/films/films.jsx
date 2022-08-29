@@ -9,10 +9,14 @@ import React, { Fragment, useState } from "react";
 import { Input, Space, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { SET_MOVIELIST } from "../../../store/types/name.type";
+import { ALL_PHIM, SET_MOVIELIST } from "../../../store/types/name.type";
 import { useAsync } from "../../../hooks/useAsync";
-import { fetchMovieListApi } from "../../../services/quanlyphim";
+import {
+  fetchDeleteMovieApi,
+  fetchMovieListApi,
+} from "../../../services/quanlyphim";
 import { NavLink, useNavigate, Outlet, useParams } from "react-router-dom";
+import { find, findIndex } from "lodash";
 
 export default function FilmsManager() {
   const navigate = useNavigate();
@@ -21,16 +25,18 @@ export default function FilmsManager() {
     (state) => state.danhsachphimReducer
   );
   // console.log(movieInfoDefault);
-  const { state: movieInfo } = useAsync({
+  const { state: movieInfoList } = useAsync({
     dependancies: [],
     service: () => fetchMovieListApi(),
   });
+
   useEffect(() => {
+    // console.log(123);
     dispatch({
       type: SET_MOVIELIST,
-      payload: movieInfo,
+      payload: movieInfoList,
     });
-  }, [movieInfo]);
+  }, [movieInfoList]);
 
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
@@ -116,14 +122,28 @@ export default function FilmsManager() {
               <EditOutlined style={{ display: "flex", alignItems: "center" }} />
             </NavLink>
 
-            <NavLink
-              to=""
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={async () => {
+                // if (
+                //   window.confirm("Bạn có chắc muốn xóa phim" + object.tenPhim)
+                // ) {
+                const dta = { ...object };
+                const indx = dta.indexOf(
+                  (ele, index) => ele.maPhim === object.maPhim
+                );
+                console.log(dta[indx]);
+                // await fetchDeleteMovieApi(object.maPhim);
+                // await fetchMovieListApi();
+                // }
+                // alert("Xóa phim thành công");
+              }}
               className="flex items-center py-2 px-2 focus:outline-none text-red-500 hover:text-white hover:bg-red-500 ml-2 font-semibold rounded-md"
             >
               <DeleteOutlined
                 style={{ display: "flex", alignItems: "center" }}
               />
-            </NavLink>
+            </span>
           </div>
         );
       },

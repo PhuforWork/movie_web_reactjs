@@ -19,7 +19,7 @@ import moment from "moment";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { GROUP_ID } from "../../../../constants/common";
 import { useAsync } from "../../../../hooks/useAsync";
 import {
@@ -30,9 +30,10 @@ import {
 import { GET_INFO_MOVIE } from "../../../../store/types/name.type";
 
 export default function EditFilms() {
+  const navigate = useNavigate();
   const params = useParams();
   const { thongTinFilm } = useSelector((state) => state.danhsachphimReducer);
-  //   console.log(thongTinFilm);
+  console.log(thongTinFilm);
   const dispatch = useDispatch();
   const [componentSize, setComponentSize] = useState("default");
   const [imgSrc, setImgSrc] = useState("");
@@ -43,7 +44,7 @@ export default function EditFilms() {
       tenPhim: thongTinFilm?.tenPhim,
       trailer: thongTinFilm?.trailer,
       moTa: thongTinFilm?.moTa,
-      ngayKhoiChieu: moment(thongTinFilm?.ngayKhoiChieu),
+      ngayKhoiChieu: moment(thongTinFilm?.ngayKhoiChieu).format("DD/MM/YYYY"),
       dangChieu: thongTinFilm?.dangChieu,
       sapChieu: thongTinFilm?.sapChieu,
       hot: thongTinFilm?.hot,
@@ -61,7 +62,7 @@ export default function EditFilms() {
           formData.append(key, values[key]);
         } else {
           if (values.hinhAnh !== null) {
-            formData.append("File", values.hinhAnh, values.hinhAnh.name);
+            await formData.append("File", values.hinhAnh, values.hinhAnh.name);
           }
         }
       }
@@ -71,6 +72,7 @@ export default function EditFilms() {
         notification.success({
           message: "Cập nhật thành công",
         });
+        navigate("/admin/films");
       } catch (error) {
         console.log(error);
       }
@@ -92,7 +94,7 @@ export default function EditFilms() {
     setComponentSize(size);
   };
   const handleChangeDate = (event) => {
-    let ngaykhoichieu = moment(event);
+    let ngaykhoichieu = moment(event).format("DD/MM/YYYY");
     formik.setFieldValue("ngayKhoiChieu", ngaykhoichieu);
   };
   const handleChangField = (name) => {
@@ -101,7 +103,7 @@ export default function EditFilms() {
     };
   };
 
-  const handleChangFile = (event) => {
+  const handleChangFile = async (event) => {
     // lay file
     let file = event.target.files[0];
     console.log(file);
@@ -113,7 +115,7 @@ export default function EditFilms() {
       file.type === " image/png"
     ) {
       // lưu vào formik
-      formik.setFieldValue("hinhAnh", file);
+      await formik.setFieldValue("hinhAnh", file);
       // tạo đối tượng đọc file
       let reader = new FileReader();
       reader.readAsDataURL(file);

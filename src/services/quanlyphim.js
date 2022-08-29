@@ -52,6 +52,13 @@ const fetchCapNhatPhimUpload = (data) => {
     data: data,
   });
 };
+
+const fetchDeleteMovieApi = (maPhim) => {
+  return request({
+    url: `/QuanLyPhim/XoaPhim?MaPhim=${maPhim}`,
+    method: "DELETE",
+  });
+};
 export {
   fetchMovieListApi,
   fetchManagerTheaterApi,
@@ -60,4 +67,5 @@ export {
   fetchAddMovieUploadPicApi,
   fetchGetInfoMovieApi,
   fetchCapNhatPhimUpload,
+  fetchDeleteMovieApi,
 };
