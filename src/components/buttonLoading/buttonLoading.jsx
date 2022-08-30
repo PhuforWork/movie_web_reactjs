@@ -1,11 +1,23 @@
 // import { PoweroffOutlined } from "@ant-design/icons";
-import { Button, Space } from "antd";
+import { Button, Space, Modal } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Details from "../../pages/details/details";
-
+import "./Modal.scss";
 export default function ButtonLoading(props) {
   const [loadings, setLoadings] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   const navigate = useNavigate();
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
@@ -37,7 +49,6 @@ export default function ButtonLoading(props) {
           loading={loadings[0]}
           onClick={() => {
             enterLoading(0);
-            
           }}
         >
           Chi tiết
@@ -46,10 +57,27 @@ export default function ButtonLoading(props) {
           type="primary"
           style={{ backgroundColor: "#d48806", border: "1px solid #d48806" }}
           loading={loadings[1]}
-          onClick={() => enterLoading(1)}
+          onClick={() => {
+            showModal();
+            enterLoading(1);
+          }}
         >
           Trailer
         </Button>
+        <Modal
+          footer={null}
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <div>
+            <iframe
+              src={props.trailer}
+              frameborder="0"
+              hidden={isModalVisible ? false : true}
+            ></iframe>
+          </div>
+        </Modal>
       </Space>
     </div>
   );

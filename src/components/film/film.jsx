@@ -7,7 +7,7 @@ export default function Film(props) {
   const {
     maPhim,
     tenPhim,
-    // trailer,
+    trailer,
     hinhAnh,
     moTa,
     // ngayKhoiChieu,
@@ -42,7 +42,22 @@ export default function Film(props) {
         </p>
         <div aria-label="Bookmark this post" className="p-2">
           <div className="flex text-center">
-            <ButtonLoading maPhim = {maPhim} /> {dangChieu ? <Tag style={{alignItems:'center',display:"flex"}} color="green">Đang chiếu</Tag> : <Tag style={{alignItems:'center',display:"flex"}} color="orange">Sắp chiếu</Tag>}  
+            <ButtonLoading trailer={trailer} maPhim={maPhim} />{" "}
+            {dangChieu ? (
+              <Tag
+                style={{ alignItems: "center", display: "flex" }}
+                color="green"
+              >
+                Đang chiếu
+              </Tag>
+            ) : (
+              <Tag
+                style={{ alignItems: "center", display: "flex" }}
+                color="orange"
+              >
+                Sắp chiếu
+              </Tag>
+            )}
           </div>
         </div>
       </div>
