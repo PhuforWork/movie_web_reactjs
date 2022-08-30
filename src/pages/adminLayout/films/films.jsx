@@ -3,6 +3,7 @@ import {
   SearchOutlined,
   EditOutlined,
   DeleteOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
 import { notification, Table } from "antd";
 import React, { Fragment, useState } from "react";
@@ -134,8 +135,8 @@ export default function FilmsManager() {
                     payload: result.data.content,
                   });
                   notification.success({
-                    message:"Xóa phim thành công"
-                  })
+                    message: "Xóa phim thành công",
+                  });
                 }
               }}
               className="flex items-center py-2 px-2 focus:outline-none text-red-500 hover:text-white hover:bg-red-500 ml-2 font-semibold rounded-md"
@@ -144,6 +145,17 @@ export default function FilmsManager() {
                 style={{ display: "flex", alignItems: "center" }}
               />
             </span>
+            <NavLink
+              to={`/admin/showtime/${object.maPhim}/${object.tenPhim}`}
+              onClick={() => {
+                localStorage.setItem("FilmsParams", JSON.stringify(object));
+              }}
+              className="flex items-center py-2 px-2 focus:outline-none text-amber-500 hover:text-white hover:bg-amber-500  ml-2 font-semibold rounded-md"
+            >
+              <CalendarOutlined
+                style={{ display: "flex", alignItems: "center" }}
+              />
+            </NavLink>
           </div>
         );
       },
@@ -205,7 +217,7 @@ export default function FilmsManager() {
             display: "flex",
             alignItems: "center",
           }}
-          placeholder="input search text"
+          placeholder="Search name movie"
           onSearch={onSearch}
           enterButton={
             <SearchOutlined style={{ display: "flex", alignItems: "center" }} />

@@ -43,14 +43,14 @@ export default function AdminLayout() {
         },
       ],
     },
-    {
-      key: "3",
-      icon: <UploadOutlined />,
-      label: "Showtime",
-      onClick: () => {
-        navigate("/admin/showtime");
-      },
-    },
+    // {
+    //   key: "3",
+    //   icon: <UploadOutlined />,
+    //   label: "Showtime",
+    //   onClick: () => {
+    //     navigate("/admin/showtime/:id");
+    //   },
+    // },
   ];
   const [collapsed, setCollapsed] = useState(false);
 

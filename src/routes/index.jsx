@@ -88,7 +88,7 @@ export default function Router() {
           element: <EditFilms />,
         },
         {
-          path: "/admin/showtime",
+          path: "/admin/showtime/:id/:tenphim",
           element: <ShowtimeManager />,
         },
       ],
