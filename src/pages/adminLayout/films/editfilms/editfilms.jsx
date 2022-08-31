@@ -33,7 +33,7 @@ export default function EditFilms() {
   const navigate = useNavigate();
   const params = useParams();
   const { thongTinFilm } = useSelector((state) => state.danhsachphimReducer);
-  console.log(thongTinFilm);
+  // console.log(thongTinFilm);
   const dispatch = useDispatch();
   const [componentSize, setComponentSize] = useState("default");
   const [imgSrc, setImgSrc] = useState("");
@@ -68,13 +68,17 @@ export default function EditFilms() {
       }
       // console.log(formData);
       try {
-        await fetchCapNhatPhimUpload(formData);
-        notification.success({
-          message: "Cập nhật thành công",
-        });
+        const result = await fetchCapNhatPhimUpload(formData);
+        if (result.data.content) {
+          notification.success({
+            message: "Cập nhật thành công",
+          });
+        }
         navigate("/admin/films");
       } catch (error) {
-        console.log(error);
+        notification.error({
+          message: error.response.data.content,
+        });
       }
     },
   });

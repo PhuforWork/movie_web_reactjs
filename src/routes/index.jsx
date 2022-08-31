@@ -2,6 +2,9 @@ import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 import AdminLayout from "../layouts/admin";
 
+const Edituser = lazy(() =>
+  import("../pages/adminLayout/dashboard/edituser/edituser")
+);
 const DashboardManager = lazy(() =>
   import("../pages/adminLayout/dashboard/dashboard")
 );
@@ -14,7 +17,7 @@ const ShowtimeManager = lazy(() =>
 );
 const Register = lazy(() => import("../pages/register/register"));
 const Adduser = lazy(() =>
-  import("../pages/adminLayout/dashboard/addUser/adduser")
+  import("../pages/adminLayout/dashboard/adduser/adduser")
 );
 const AddFilms = lazy(() =>
   import("../pages/adminLayout/films/addfilms/addfilms")
@@ -102,6 +105,10 @@ export default function Router() {
         {
           path: "/admin/adduser",
           element: <Adduser />,
+        },
+        {
+          path: "/admin/edituser/:taiKhoan",
+          element: <Edituser />,
         },
       ],
     },

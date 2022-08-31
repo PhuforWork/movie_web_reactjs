@@ -18,10 +18,50 @@ const fetchRegisterApi = (data) => {
   });
 };
 
-const fetchTakeListUser = () => {
+const fetchTakeListUser = (tuKhoa = "") => {
   return request({
-    url: `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=${GROUP_ID}`,
+    url:
+      tuKhoa !== ""
+        ? `/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=${GROUP_ID}&tuKhoa=${tuKhoa}`
+        : `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=${GROUP_ID}`,
     method: "GET",
   });
 };
-export { fetchUserApi, fetchRegisterApi, fetchTakeListUser };
+
+const fetchAddUserApi = (data) => {
+  return request({
+    url: `/QuanLyNguoiDung/ThemNguoiDung`,
+    method: "POST",
+    data: data,
+  });
+};
+const fetchTakeInfoUserApi = (taiKhoan) => {
+  return request({
+    url: `/QuanLyNguoiDung/LayThongTinNguoiDung?taiKhoan=${taiKhoan}`,
+    method: "POST",
+  });
+};
+
+const fetchUpdateInfoUserApi = (data) => {
+  return request({
+    url: `/QuanLyNguoiDung/CapNhatThongTinNguoiDung`,
+    method: "POST",
+    data: data,
+  });
+};
+
+const fetchDeleteUserApi = (taiKhoan) => {
+  return request({
+    url: `/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`,
+    method: "DELETE",
+  });
+};
+export {
+  fetchUserApi,
+  fetchRegisterApi,
+  fetchTakeListUser,
+  fetchAddUserApi,
+  fetchTakeInfoUserApi,
+  fetchUpdateInfoUserApi,
+  fetchDeleteUserApi,
+};

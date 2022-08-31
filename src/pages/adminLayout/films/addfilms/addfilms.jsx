@@ -67,7 +67,9 @@ export default function AddFilms() {
         });
         navigate("/admin/films");
       } catch (error) {
-        console.log(error);
+        notification.error({
+          message: error.response.data.content,
+        });
       }
     },
   });

@@ -1,0 +1,39 @@
+.ant-form {
+  box-sizing: border-box;
+  margin: 0;
+  padding-top: 100px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum", "tnum";
+}
+.ant-form-item {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0px 150px 0px 0px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum", "tnum";
+  margin-bottom: 24px;
+  vertical-align: top;
+}
+.ant-form-item-feedback-icon-error {
+    color: #ff4d4f;
+    display: flex;
+    align-items: center;
+}
+.ant-form-item-feedback-icon-success {
+  color: #52c41a;
+  display: flex;
+  align-items: center;
+}
+.ant-input-suffix {
+  margin-left: 4px;
+  display: flex;
+  align-items: center;
+}

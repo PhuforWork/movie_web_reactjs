@@ -13,14 +13,17 @@ import { useEffect } from "react";
 import { GET_LIST_USER } from "../../../store/types/name.type";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAsync } from "../../../hooks/useAsync";
-import { fetchTakeListUser } from "../../../services/quanlyuser";
+import {
+  fetchDeleteUserApi,
+  fetchTakeListUser,
+} from "../../../services/quanlyuser";
 
 export default function DashboardManager() {
-  const { userInfo } = useSelector((state) => state.quanlyUserReducer);
+  const { userListInfo } = useSelector((state) => state.quanlyUserReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loadings, setLoadings] = useState([]);
-  // console.log(userInfo);
+  // console.log(userListInfo);
   const { state: userInfoList } = useAsync({
     dependancies: [],
     service: () => fetchTakeListUser(),
@@ -52,34 +55,23 @@ export default function DashboardManager() {
       title: "STT",
       dataIndex: "key",
       width: 50,
-      render: (text, object) => {
-        // console.log(text);
+      render: (text) => {
         return <span>{text}</span>;
       },
-      // specify the condition of filtering result
-      // here is that finding the name started with `value`
-      onFilter: (value, record) => record.name.indexOf(value) === 0,
-      sorter: (a, b) => a.maPhim - b.maPhim,
-      sortDirections: ["descend", "ascend"],
+      // onFilter: (value, record) => record.name.indexOf(value) === 0,
+      // sorter: (a, b) => a.maPhim - b.maPhim,
+      // sortDirections: ["descend", "ascend"],
     },
     {
       title: "Tài khoản",
       dataIndex: "taiKhoan",
       defaultSortOrder: "descend",
       width: 120,
-      render: (text, object) => {
+      render: (text) => {
         return <p className="font-bold">{text}</p>;
       },
-    },
-    {
-      title: "Mật khẩu",
-      dataIndex: "matKhau",
-      width: 120,
-      render: (text) => {
-        return <p>{text}</p>;
-      },
       sorter: (a, b) => {
-        if (a.tenPhim.toLowerCase().trim() > b.tenPhim.toLowerCase().trim()) {
+        if (a.taiKhoan.toLowerCase().trim() > b.taiKhoan.toLowerCase().trim()) {
           return 1;
         } else {
           return -1;
@@ -88,12 +80,28 @@ export default function DashboardManager() {
       sortDirections: ["descend", "ascend"],
     },
     {
+      title: "Mật khẩu",
+      dataIndex: "matKhau",
+      width: 120,
+      render: (text) => {
+        return <p>{text}</p>;
+      },
+    },
+    {
       title: "Họ tên",
       dataIndex: "hoTen",
       width: 200,
-      render: (text, object) => {
+      render: (text) => {
         return <p>{text}</p>;
       },
+      sorter: (a, b) => {
+        if (a.hoTen.toLowerCase().trim() > b.hoTen.toLowerCase().trim()) {
+          return 1;
+        } else {
+          return -1;
+        }
+      },
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Email",
@@ -115,16 +123,28 @@ export default function DashboardManager() {
       render: (text, object) => {
         return <p>{text}</p>;
       },
+      filters: [
+        {
+          text: "Khách Hàng",
+          value: "KhachHang",
+        },
+        {
+          text: "Quản Trị",
+          value: "QuanTri",
+        },
+      ],
+      onFilter: (value, record) => record.maLoaiNguoiDung.indexOf(value) === 0,
     },
     {
       title: "Thao tác",
       dataIndex: "thaoTac",
       width: 120,
       render: (text, object) => {
+        // console.log(object);
         return (
           <div className="flex items-center">
             <NavLink
-              to={``}
+              to={`/admin/edituser/${object.taiKhoan}`}
               className="flex items-center py-2 px-2 focus:outline-none text-blue-400 hover:text-white hover:bg-cyan-400  ml-2 font-semibold rounded-md"
             >
               <EditOutlined style={{ display: "flex", alignItems: "center" }} />
@@ -132,6 +152,31 @@ export default function DashboardManager() {
 
             <span
               style={{ cursor: "pointer" }}
+              onClick={async () => {
+                if (
+                  window.confirm(
+                    `Bạn có chắc muốn xóa người dùng ${object.hoTen}`
+                  )
+                ) {
+                  try {
+                    await fetchDeleteUserApi(object.taiKhoan);
+                    const result = await fetchTakeListUser();
+                    dispatch({
+                      type: GET_LIST_USER,
+                      payload: result.data.content,
+                    });
+                    if (result.data.content) {
+                      notification.success({
+                        message: "Xóa người dùng thành công",
+                      });
+                    }
+                  } catch (error) {
+                    notification.error({
+                      message: error.response.data.content,
+                    });
+                  }
+                }
+              }}
               className="flex items-center py-2 px-2 focus:outline-none text-red-500 hover:text-white hover:bg-red-500 ml-2 font-semibold rounded-md"
             >
               <DeleteOutlined
@@ -144,7 +189,7 @@ export default function DashboardManager() {
     },
   ];
 
-  const data = userInfo.map((ele, index) => {
+  const data = userListInfo.map((ele, index) => {
     return {
       key: index + 1,
       hoTen: ele.hoTen,
@@ -164,7 +209,11 @@ export default function DashboardManager() {
   const { Search } = Input;
 
   const onSearch = async (value) => {
-    // vlaue
+    const result = await fetchTakeListUser(value);
+    dispatch({
+      type: GET_LIST_USER,
+      payload: result.data.content,
+    });
   };
 
   return (

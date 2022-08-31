@@ -7,14 +7,19 @@ import {
   Form,
   Input,
   InputNumber,
+  notification,
   Row,
   Select,
 } from "antd";
 import React, { useState } from "react";
 import "./adduser.scss";
 import { useFormik } from "formik";
+import { GROUP_ID } from "../../../../constants/common";
+import { fetchAddUserApi } from "../../../../services/quanlyuser";
+import { useNavigate } from "react-router";
 
 export default function Adduser() {
+  const navigate = useNavigate();
   const { Option } = Select;
   const formItemLayout = {
     labelCol: {
@@ -48,28 +53,44 @@ export default function Adduser() {
   };
   const formik = useFormik({
     initialValues: {
-      hoTen: "",
-      maLoaiNguoiDung: "",
-      matKhau: "",
-      soDt: "",
       taiKhoan: "",
+      matKhau: "",
       email: "",
+      soDt: "",
+      maNhom: GROUP_ID,
+      maLoaiNguoiDung: "",
+      hoTen: "",
     },
-    onSubmit: (value) => {
-      console.log(value);
+    onSubmit: async (values) => {
+      try {
+        const result = await fetchAddUserApi(values);
+        if (result.data.content) {
+          notification.success({
+            message: "thêm người dùng thành công",
+          });
+          navigate("/admin/dashboard")
+        }
+      } catch (error) {
+        notification.error({
+          message: error.response.data.content,
+        });
+      }
     },
   });
+  const handleChangeFeild = (value) => {
+    formik.setFieldValue("maLoaiNguoiDung", value);
+  };
   return (
     <div className="pr-10">
       <Form {...formItemLayout} onSubmitCapture={formik.handleSubmit}>
         <h3 className="text-center pb-4">Thêm người dùng</h3>
-        <Form.Item name="email" label="E-mail" tooltip="Ex: name123@gmail.com">
-          <Input />
+        <Form.Item label="E-mail" tooltip="Ex: name123@gmail.com">
+          <Input name="email" onChange={formik.handleChange} />
         </Form.Item>
         <Form.Item label="Tài khoản" tooltip="Please type ID" hasFeedback>
           <Input name="taiKhoan" onChange={formik.handleChange} />
         </Form.Item>
-        <Form.Item  label="Mật khẩu" hasFeedback>
+        <Form.Item label="Mật khẩu" hasFeedback>
           <Input.Password name="matKhau" onChange={formik.handleChange} />
         </Form.Item>
         <Form.Item label="Họ và tên" tooltip="Nguyễn Văn A" hasFeedback>
@@ -85,7 +106,11 @@ export default function Adduser() {
           />
         </Form.Item>
         <Form.Item label="Loại người dùng">
-          <Select placeholder="Chọn loại người dùng" name="maLoaiNguoiDung" >
+          <Select
+            placeholder="Chọn loại người dùng"
+            name="maLoaiNguoiDung"
+            onChange={handleChangeFeild}
+          >
             <Option value="QuanTri">Quản Trị</Option>
             <Option value="KhachHang">Khách hàng</Option>
           </Select>
