@@ -5,12 +5,16 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Avatar } from "antd";
 import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { SET_ACCOUNTS_USER, USER_ACCOUNT_KEY } from "../store/types/name.type";
 import "./cssLayout/admin.scss";
 
 export default function AdminLayout() {
+  const dispatch = useDispatch();
+  const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
   const { Header, Sider, Content } = Layout;
   const navigate = useNavigate();
   const items = [
@@ -18,9 +22,22 @@ export default function AdminLayout() {
       key: "1",
       icon: <UserOutlined />,
       label: "User",
-      onClick: () => {
-        navigate("/admin/dashboard");
-      },
+      children: [
+        {
+          key: "6",
+          label: "List User",
+          onClick: () => {
+            navigate("/admin/dashboard");
+          },
+        },
+        {
+          key: "7",
+          label: "Add User",
+          onClick: () => {
+            navigate("/admin/adduser");
+          },
+        },
+      ],
     },
     {
       key: "2",
@@ -54,6 +71,14 @@ export default function AdminLayout() {
   ];
   const [collapsed, setCollapsed] = useState(false);
 
+  const handleLogout = () => {
+    localStorage.removeItem(USER_ACCOUNT_KEY);
+    dispatch({
+      type: SET_ACCOUNTS_USER,
+      payload: null,
+    });
+    navigate("/adminguards/login");
+  };
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -82,6 +107,26 @@ export default function AdminLayout() {
               },
             }
           )}
+          <>
+            {quanlynguoidung.userAccount ? (
+              <span className="flex items-center ml-auto mr-3">
+                Hello !{" "}
+                <span className="ml-2 flex ">
+                  <Avatar
+                    className="uppercase"
+                    style={{ color: "#f56a00", backgroundColor: "#fde3cf" }}
+                  >
+                    {quanlynguoidung.userAccount.taiKhoan.substr(0, 1)}
+                  </Avatar>
+                </span>
+                <button className="ml-2" onClick={handleLogout}>
+                  Đăng xuất
+                </button>
+              </span>
+            ) : (
+              ""
+            )}
+          </>
         </Header>
         <Content
           className="site-layout-background"

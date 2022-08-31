@@ -1,5 +1,7 @@
 // import { TOKEN } from "../../constants/common";
 import {
+  GET_INFO_MOVIE,
+  GET_LIST_USER,
   SET_ACCOUNTS_USER,
   SET_HISTORY_BOOKED,
   USER_ACCOUNT_KEY,
@@ -24,6 +26,7 @@ const USER_DEFAULT = {
     },
   ],
   infoUserTicket: [],
+  userInfo: [],
 };
 
 export const quanlyUserReducer = (state = USER_DEFAULT, { type, payload }) => {
@@ -35,6 +38,10 @@ export const quanlyUserReducer = (state = USER_DEFAULT, { type, payload }) => {
     }
     case SET_HISTORY_BOOKED: {
       state.infoUserTicket = payload;
+      return { ...state };
+    }
+    case GET_LIST_USER: {
+      state.userInfo = payload;
       return { ...state };
     }
     default:

@@ -1,13 +1,21 @@
 import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 import AdminLayout from "../layouts/admin";
-import DashboardManager from "../pages/adminLayout/dashboard/dashboard";
-import EditFilms from "../pages/adminLayout/films/editfilms/editfilms";
 
-import FilmsManager from "../pages/adminLayout/films/films";
-import ShowtimeManager from "../pages/adminLayout/showtime/showtime";
-import Register from "../pages/register/register";
-
+const DashboardManager = lazy(() =>
+  import("../pages/adminLayout/dashboard/dashboard")
+);
+const EditFilms = lazy(() =>
+  import("../pages/adminLayout/films/editfilms/editfilms")
+);
+const FilmsManager = lazy(() => import("../pages/adminLayout/films/films"));
+const ShowtimeManager = lazy(() =>
+  import("../pages/adminLayout/showtime/showtime")
+);
+const Register = lazy(() => import("../pages/register/register"));
+const Adduser = lazy(() =>
+  import("../pages/adminLayout/dashboard/addUser/adduser")
+);
 const AddFilms = lazy(() =>
   import("../pages/adminLayout/films/addfilms/addfilms")
 );
@@ -90,6 +98,10 @@ export default function Router() {
         {
           path: "/admin/showtime/:id/:tenphim",
           element: <ShowtimeManager />,
+        },
+        {
+          path: "/admin/adduser",
+          element: <Adduser />,
         },
       ],
     },

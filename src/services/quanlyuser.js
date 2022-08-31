@@ -1,4 +1,5 @@
 import { request } from "../configs/axios";
+import { GROUP_ID } from "../constants/common";
 
 const fetchUserApi = (data) => {
   // {"taiKhoan":"duyvo", "matKhau":"123456"}
@@ -16,4 +17,11 @@ const fetchRegisterApi = (data) => {
     data: data,
   });
 };
-export { fetchUserApi, fetchRegisterApi };
+
+const fetchTakeListUser = () => {
+  return request({
+    url: `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=${GROUP_ID}`,
+    method: "GET",
+  });
+};
+export { fetchUserApi, fetchRegisterApi, fetchTakeListUser };
