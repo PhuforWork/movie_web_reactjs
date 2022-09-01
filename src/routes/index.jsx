@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 import AdminLayout from "../layouts/admin";
+import PersonalInformation from "../pages/personalInformation/personal-information";
 
 const Edituser = lazy(() =>
   import("../pages/adminLayout/dashboard/edituser/edituser")
@@ -61,6 +62,10 @@ export default function Router() {
         {
           path: "/booking/:id",
           element: <Booking />,
+        },
+        {
+          path: "/personalinformation/",
+          element: <PersonalInformation />,
         },
       ],
     },

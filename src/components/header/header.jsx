@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Select, Avatar, Dropdown, Menu, Space } from "antd";
 import React from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -30,6 +30,25 @@ export default function Header() {
   useEffect(() => {
     i18n.changeLanguage("en");
   }, []);
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: (
+            <NavLink to="/personalinformation/">Thông tin tài khoản</NavLink>
+          ),
+          key: "0",
+        },
+        {
+          type: "divider",
+        },
+        {
+          label: <button onClick={handleLogout}>{t("Logout")}</button>,
+          key: "3",
+        },
+      ]}
+    />
+  );
   return (
     <div>
       <header className="px-4 py-2 bg-slate-900  opacity-80 dark:text-gray-100 fixed w-full z-10">
@@ -95,7 +114,7 @@ export default function Header() {
               <>
                 <button
                   onClick={() => {
-                    navigate("/adminguards/register")
+                    navigate("/adminguards/register");
                   }}
                   className="self-center px-8 py-3 rounded mx-2 text-orange-600 "
                 >
@@ -112,15 +131,26 @@ export default function Header() {
               </>
             ) : (
               <>
-                <span className="mr-2 text-emerald-400">
-                  {t("hello")} {quanlynguoidung.userAccount.hoTen}
+                <span className="mr-2 text-emerald-400 flex items-center">
+                  {t("hello")}{" "}
+                  <span className="ml-2 flex ">
+                    <Dropdown overlay={menu}>
+                      <a onClick={(e) => e.preventDefault()}>
+                        <Space>
+                          <Avatar
+                            className="uppercase"
+                            style={{
+                              color: "#f56a00",
+                              backgroundColor: "#fde3cf",
+                            }}
+                          >
+                            {quanlynguoidung.userAccount.taiKhoan.substr(0, 1)}
+                          </Avatar>
+                        </Space>
+                      </a>
+                    </Dropdown>
+                  </span>
                 </span>
-                <button
-                  onClick={handleLogout}
-                  className="self-center px-8 py-3 font-semibold rounded bg-green-500 "
-                >
-                  {t("Logout")}
-                </button>
               </>
             )}
             <Select
