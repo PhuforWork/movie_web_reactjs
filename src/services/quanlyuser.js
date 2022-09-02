@@ -56,6 +56,15 @@ const fetchDeleteUserApi = (taiKhoan) => {
     method: "DELETE",
   });
 };
+
+const fetchCapNhatThongTinNguoiDung = (data) => {
+  return request({
+    url: `/QuanLyNguoiDung/CapNhatThongTinNguoiDung`,
+    method: "PUT",
+    data: data,
+  });
+};
+
 export {
   fetchUserApi,
   fetchRegisterApi,
@@ -64,4 +73,5 @@ export {
   fetchTakeInfoUserApi,
   fetchUpdateInfoUserApi,
   fetchDeleteUserApi,
+  fetchCapNhatThongTinNguoiDung,
 };

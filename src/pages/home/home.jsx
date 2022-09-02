@@ -59,7 +59,7 @@ export default function Home() {
         </div>
       </section>
       <div style={{ margin: "100px 200px" }}>
-        <HomeMenu hethongRapChieu={hethongRapChieu} />
+        <HomeMenu hethongRapChieu={hethongRapChieu}  />
       </div>
     </div>
   );

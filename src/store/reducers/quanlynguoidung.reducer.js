@@ -2,6 +2,7 @@
 import {
   GET_INFO_USER,
   GET_LIST_USER,
+  GET_PERSONAL_INFORMATION,
   SET_ACCOUNTS_USER,
   SET_HISTORY_BOOKED,
   USER_ACCOUNT_KEY,
@@ -28,6 +29,7 @@ const USER_DEFAULT = {
   infoUserTicket: [],
   userListInfo: [],
   userTakeInfo: [],
+  persionalInformation: [],
 };
 
 export const quanlyUserReducer = (state = USER_DEFAULT, { type, payload }) => {
@@ -48,6 +50,10 @@ export const quanlyUserReducer = (state = USER_DEFAULT, { type, payload }) => {
     case GET_INFO_USER: {
       state.userTakeInfo = payload;
       return { ...state };
+    }
+    case GET_PERSONAL_INFORMATION:{
+      state.persionalInformation = payload;
+      return {...state}
     }
     default:
       return state;

@@ -17,6 +17,7 @@ export default function Header() {
     i18n.changeLanguage(value);
   };
   const quanlynguoidung = useSelector((state) => state.quanlyUserReducer);
+  const { userAccount } = quanlynguoidung;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -35,7 +36,7 @@ export default function Header() {
       items={[
         {
           label: (
-            <NavLink to="/personalinformation/">Thông tin tài khoản</NavLink>
+            <NavLink to={`/personalinformation/${userAccount.taiKhoan}`}>Thông tin tài khoản</NavLink>
           ),
           key: "0",
         },

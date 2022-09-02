@@ -64,7 +64,7 @@ export default function Router() {
           element: <Booking />,
         },
         {
-          path: "/personalinformation/",
+          path: "/personalinformation/:taiKhoan",
           element: <PersonalInformation />,
         },
       ],

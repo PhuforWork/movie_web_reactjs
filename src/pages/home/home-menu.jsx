@@ -1,5 +1,6 @@
 import { Tabs } from "antd";
 import moment from "moment";
+import _ from "lodash";
 import React, { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -7,7 +8,7 @@ const { TabPane } = Tabs;
 
 export default function HomeMenu(props) {
   const [tabPosition, setTabPosition] = useState("left");
-  // console.log(props);
+
   const renderMovieTheater = () => {
     return props.hethongRapChieu?.map((hethongRap, index) => {
       return (
@@ -23,7 +24,9 @@ export default function HomeMenu(props) {
           key={hethongRap.maHeThongRap}
         >
           <Tabs tabPosition={tabPosition}>
-            {hethongRap.lstCumRap?.slice(0,5).map((listRap, index) => {
+            {hethongRap.lstCumRap?.slice(0, 5).map((listRap, index) => {
+              const dsp = _.first(listRap.danhSachPhim);
+               const lctp = _.first(dsp.lstLichChieuTheoPhim);
               return (
                 <TabPane
                   key={index}
@@ -66,7 +69,8 @@ export default function HomeMenu(props) {
                         >
                           {listRap.diaChi}
                         </p>
-                        <p
+                        <NavLink
+                          to={`/booking/${lctp.maLichChieu}`}
                           style={{
                             display: "flex",
                             alignItems: "center",
@@ -75,13 +79,13 @@ export default function HomeMenu(props) {
                           }}
                         >
                           Chi tiết
-                        </p>
+                        </NavLink>
                       </div>
                     </div>
                   }
                 >
                   {/* loading phim */}
-                  {listRap.danhSachPhim?.slice(0,4).map((dsPhim, index) => {
+                  {listRap.danhSachPhim?.slice(0, 4).map((dsPhim, index) => {
                     return (
                       <Fragment key={index}>
                         <div className="mb-3 mt-1" style={{ display: "flex" }}>
