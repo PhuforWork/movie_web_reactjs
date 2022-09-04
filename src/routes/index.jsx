@@ -1,8 +1,12 @@
 import React, { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 import AdminLayout from "../layouts/admin";
-import PersonalInformation from "../pages/personalInformation/personal-information";
 
+
+
+const PersonalInformation = lazy(() =>
+  import("../pages/personalInformation/personal-information")
+);
 const Edituser = lazy(() =>
   import("../pages/adminLayout/dashboard/edituser/edituser")
 );
