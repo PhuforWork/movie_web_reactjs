@@ -16,15 +16,15 @@ export default function AdminGuards() {
     //   });
     //   return navigate("/adminguards/login");
     // }
-    // if (
-    //   quanlynguoidung.userAccount &&
-    //   quanlynguoidung.userAccount.maLoaiNguoiDung !== "QuanTri"
-    // ) {
-    //   notification.warning({
-    //     message: "Khách hàng không thể vào trang admin",
-    //   });
-    //   return navigate("/home");
-    // }
+    if (
+      quanlynguoidung.userAccount &&
+      quanlynguoidung.userAccount.maLoaiNguoiDung !== "QuanTri"
+    ) {
+      notification.warning({
+        message: "Khách hàng không thể vào trang admin",
+      });
+      return navigate("/home");
+    }
     const openNotification = () => {
       notification.success({
         key,
