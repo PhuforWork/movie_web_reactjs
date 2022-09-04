@@ -89,7 +89,9 @@ export default function PersonalInformation() {
       dataIndex: "tenRapTenGhe",
       width: "10%",
       render: (text) => {
-        return <span>Ghế {text.tenGhe}</span>;
+        return text.map((ele, index) => {
+          return <span>[{ele.tenGhe}] </span>;
+        });
       },
     },
     {
@@ -114,6 +116,7 @@ export default function PersonalInformation() {
   //   },
   // ];
   const data = persionalInformation.thongTinDatVe?.map((ele, index) => {
+    console.log(ele.danhSachGhe);
     const dsGhe = _.first(ele.danhSachGhe);
     return {
       key: index + 1,
@@ -121,7 +124,7 @@ export default function PersonalInformation() {
       tenPhim: ele.tenPhim,
       ngayDat: ele.ngayDat,
       tenHeThongRap: dsGhe,
-      tenRapTenGhe: dsGhe,
+      tenRapTenGhe: ele.danhSachGhe,
     };
   });
 
