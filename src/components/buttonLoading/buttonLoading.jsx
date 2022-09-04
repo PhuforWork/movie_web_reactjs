@@ -1,6 +1,7 @@
 // import { PoweroffOutlined } from "@ant-design/icons";
 import { Button, Space, Modal } from "antd";
 import React, { useState } from "react";
+import ReactPlayer from "react-player";
 import { useNavigate } from "react-router-dom";
 import Details from "../../pages/details/details";
 import "./Modal.scss";
@@ -18,6 +19,7 @@ export default function ButtonLoading(props) {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
   const navigate = useNavigate();
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
@@ -64,20 +66,23 @@ export default function ButtonLoading(props) {
         >
           Trailer
         </Button>
-        <Modal
-          footer={null}
-          visible={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        >
-          <div>
-            <iframe
-              src={props.trailer}
-              frameborder="0"
-              hidden={isModalVisible ? false : true}
-            ></iframe>
-          </div>
-        </Modal>
+        {isModalVisible ? (
+          <Modal
+            footer={null}
+            visible={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <div>
+              <ReactPlayer
+                url={props.trailer}
+                playing={true}
+                controls
+                volume={1}
+              />
+            </div>
+          </Modal>
+        ) : null}
       </Space>
     </div>
   );

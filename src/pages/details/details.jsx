@@ -134,12 +134,12 @@ export default function Details(props) {
                   })}
                 </Tabs>
               </TabPane>
-              <TabPane tab="Thông tin" key="2">
+              {/* <TabPane tab="Thông tin" key="2">
                 Content of Tab Pane 2
               </TabPane>
               <TabPane tab="Đánh giá" key="3">
                 Content of Tab Pane 3
-              </TabPane>
+              </TabPane> */}
             </Tabs>
           </div>
         </div>

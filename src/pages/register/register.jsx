@@ -2,7 +2,7 @@ import { notification } from "antd";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { GROUP_ID } from "../../constants/common";
-import { fetchRegisterApi } from "../../services/quanlyuser";
+import { fetchAddUserApi, fetchRegisterApi } from "../../services/quanlyuser";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -12,6 +12,13 @@ export default function Register() {
     email: "",
     soDt: "",
     maNhom: "",
+    hoTen: "",
+  });
+  const [errorList, setErrorList] = useState({
+    taiKhoan: "",
+    matKhau: "",
+    email: "",
+    soDt: "",
     hoTen: "",
   });
   const handleChange = (event) => {
@@ -24,17 +31,45 @@ export default function Register() {
   };
   const handleOnSubmit = async (event) => {
     event.preventDefault();
+    console.log(regis);
     try {
-      await fetchRegisterApi(regis);
-      notification.warning({
-        message: "Đăng ký thành công",
-      });
-      navigate("/adminguards/login")
+      const result = await fetchRegisterApi(regis);
+      if (result.data.content) {
+        notification.warning({
+          message: "Đăng ký thành công",
+        });
+        navigate("/adminguards/login");
+      }
     } catch (error) {
-      notification.warning({
-        message: "Đăng ký thất bại",
+      notification.error({
+        message: error.response.data.content,
       });
     }
+  };
+  const handleBlur = (event) => {
+    const {
+      name,
+      title,
+      minLength,
+      maxLength,
+      validationMessage,
+      validity: { valueMissing, patternMismatch, tooLong, tooShort },
+    } = event.target;
+    let messError = "";
+    if (patternMismatch) {
+      messError = `${title} sai cú pháp`;
+    }
+    if (tooShort || tooShort) {
+      messError = `${title} phải từ ${minLength} tới ${maxLength} ký tự`;
+    }
+
+    if (valueMissing) {
+      messError = `${title} không được để trống `;
+    }
+    setErrorList({
+      ...errorList,
+      [name]: messError,
+    });
   };
   return (
     <section className="bg-gray-50">
@@ -63,6 +98,7 @@ export default function Register() {
               className="space-y-4 md:space-y-6"
               action="#"
               onSubmit={handleOnSubmit}
+              noValidate
             >
               <div>
                 <label
@@ -75,11 +111,21 @@ export default function Register() {
                   onChange={handleChange}
                   type="text"
                   name="hoTen"
+                  pattern={
+                    "^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +
+                    "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +
+                    "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$"
+                  }
+                  title="Họ tên"
                   id="fullname"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                   placeholder="Type name here"
                   required
+                  onBlur={handleBlur}
                 />
+                {errorList.hoTen && (
+                  <span className="text-danger">{errorList.hoTen}</span>
+                )}
               </div>
               <div>
                 <label
@@ -90,13 +136,19 @@ export default function Register() {
                 </label>
                 <input
                   onChange={handleChange}
+                  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.]{1}[a-zA-Z]{2,}$"
                   type="email"
+                  title="Email"
                   name="email"
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                   placeholder="name@company.com"
                   required
+                  onBlur={handleBlur}
                 />
+                {errorList.email && (
+                  <span className="text-danger">{errorList.email}</span>
+                )}
               </div>
               <div>
                 <label
@@ -109,11 +161,19 @@ export default function Register() {
                   onChange={handleChange}
                   type="text"
                   name="taiKhoan"
+                  title="Tài khoản"
                   id="taikhoan"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                   placeholder="name123"
                   required
+                  minLength={5}
+                  maxLength={16}
+                  pattern="^[A-Za-z0-9]{5,}$"
+                  onBlur={handleBlur}
                 />
+                {errorList.taiKhoan && (
+                  <span className="text-danger">{errorList.taiKhoan}</span>
+                )}
               </div>
               <div>
                 <label
@@ -126,11 +186,17 @@ export default function Register() {
                   onChange={handleChange}
                   type="password"
                   name="matKhau"
+                  title="Mật khẩu"
                   id="password"
+                  pattern="^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                   required
+                  onBlur={handleBlur}
                 />
+                {errorList.matKhau && (
+                  <span className="text-danger">{errorList.matKhau}</span>
+                )}
               </div>
               <div>
                 <label
@@ -143,12 +209,18 @@ export default function Register() {
                   onChange={handleChange}
                   type="text"
                   name="soDt"
+                  title="Số điện thoại"
                   id="number"
-                  pattern="/^[0-9]+$/"
+                  maxLength={10}
+                  pattern="^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$"
                   placeholder="090 xxx xxx"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                   required
+                  onBlur={handleBlur}
                 />
+                {errorList.soDt && (
+                  <span className="text-danger">{errorList.soDt}</span>
+                )}
               </div>
               <button
                 type="submit"

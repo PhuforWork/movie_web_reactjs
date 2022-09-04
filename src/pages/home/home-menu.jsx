@@ -23,17 +23,17 @@ export default function HomeMenu(props) {
           }
           key={hethongRap.maHeThongRap}
         >
-          <Tabs tabPosition={tabPosition}>
+          <Tabs tabPosition={tabPosition} >
             {hethongRap.lstCumRap?.slice(0, 5).map((listRap, index) => {
               const dsp = _.first(listRap.danhSachPhim);
-               const lctp = _.first(dsp.lstLichChieuTheoPhim);
+              const lctp = _.first(dsp.lstLichChieuTheoPhim);
               return (
                 <TabPane
                   key={index}
                   tab={
                     <div
                       style={{
-                        width: "300px",
+                        width: "270px",
                         display: "flex",
                         alignItems: "center",
                       }}
@@ -112,7 +112,7 @@ export default function HomeMenu(props) {
                                       <Fragment key={index}>
                                         <NavLink
                                           style={{ color: "#fa8c16" }}
-                                          to={"/home"}
+                                          to={`/details/${dsPhim.maPhim}`}
                                         >
                                           {moment(
                                             ngayChieuPhim.ngayChieuGioChieu
