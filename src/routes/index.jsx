@@ -18,7 +18,7 @@ const ShowtimeManager = lazy(() =>
 );
 const Register = lazy(() => import("../pages/register/register"));
 const Adduser = lazy(() =>
-  import("../pages/adminLayout/dashboard/adduser/adduser")
+  import("../pages/adminLayout/dashboard/addUser/adduser")
 );
 const AddFilms = lazy(() =>
   import("../pages/adminLayout/films/addfilms/addfilms")
