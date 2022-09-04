@@ -8,7 +8,7 @@ import {
 import { Layout, Menu, Avatar } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { SET_ACCOUNTS_USER, USER_ACCOUNT_KEY } from "../store/types/name.type";
 import "./cssLayout/admin.scss";
 
