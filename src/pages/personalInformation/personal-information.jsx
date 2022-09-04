@@ -61,7 +61,7 @@ export default function PersonalInformation() {
       dataIndex: "hinhAnh",
       width: "20%",
       render: (text, object) => {
-        console.log(object);
+        // console.log(object);
         return <img width={50} height={50} src={text} alt={object.maVe} />;
       },
     },
@@ -116,7 +116,6 @@ export default function PersonalInformation() {
   //   },
   // ];
   const data = persionalInformation.thongTinDatVe?.map((ele, index) => {
-    console.log(ele.danhSachGhe);
     const dsGhe = _.first(ele.danhSachGhe);
     return {
       key: index + 1,
@@ -129,7 +128,7 @@ export default function PersonalInformation() {
   });
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
   const { Option } = Select;
   const formItemLayout = {
