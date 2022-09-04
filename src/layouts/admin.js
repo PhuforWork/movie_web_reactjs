@@ -6,7 +6,7 @@ import {
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Avatar } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { SET_ACCOUNTS_USER, USER_ACCOUNT_KEY } from "../store/types/name.type";
@@ -79,6 +79,17 @@ export default function AdminLayout() {
     });
     navigate("/adminguards/login");
   };
+  useEffect(() => {
+    if (
+      quanlynguoidung.userAccount &&
+      quanlynguoidung.userAccount.maLoaiNguoiDung !== "QuanTri"
+    ) {
+      notification.warning({
+        message: "Khách hàng không thể vào trang admin",
+      });
+      return navigate("/home");
+    }
+  }, [quanlynguoidung]);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
